@@ -1,0 +1,26 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# MCP Tavily Deep Research with System Date Injection
+
+## Critical Rules
+
+- For any user request involving deep research, always use the MCP Tavily tool for web search and research tasks.
+- Before making any Tavily (MCP) request, always run the system's `date` command to get the current system date and time.
+- Inject the retrieved system date/time into all Tavily requests, either as a parameter or in the query context, to ensure time-contextual accuracy.
+- Never rely on the AI's internal or training data date/time for time-sensitive research; always use the actual system date/time.
+- If the system date/time cannot be retrieved, inform the user and do not proceed with the research request.
+
+## Examples
+
+<example>
+  User: "Please do deep research on the latest AI trends."
+  Agent: Runs `date` to get the current system date/time, then uses MCP Tavily for the search, injecting the date/time into the query or context.
+</example>
+
+<example type="invalid">
+  User: "Do deep research on 2025 tech events."
+  Agent: Uses MCP Tavily but does not check or inject the current system date/time, leading to potentially outdated or contextually incorrect results.
+</example>

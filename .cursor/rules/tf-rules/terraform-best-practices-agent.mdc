@@ -1,0 +1,58 @@
+---
+description: This rule governs Terraform infrastructure-as-code development practices and should be applied whenever: (1) Creating or modifying Terraform configurations, (2) Reviewing infrastructure changes, (3) Setting up new Terraform projects or modules, (4) Refactoring existing Terraform code, or (5) Planning infrastructure architecture. The rule ensures consistent, maintainable, and secure infrastructure code following HashiCorp's best practices. It's particularly crucial for resource management, state handling, module organization, variable definitions, and overall infrastructure architecture. This rule helps maintain high-quality infrastructure code that is scalable, secure, and follows the principle of infrastructure as code.
+globs: 
+alwaysApply: false
+---
+
+# Terraform Best Practices
+
+## Critical Rules
+
+- Befolge die offiziellen Terraform-Best-Practices für [Codestruktur](https://www.terraform-best-practices.com/code-structure), [Namenskonventionen](https://www.terraform-best-practices.com/naming) und [Codestil](https://www.terraform-best-practices.com/code-styling).
+- Verwende 2 Leerzeichen zur Einrückung (keine Tabs).
+- Schreibe prägnanten, gut strukturierten Terraform-Code mit aussagekräftigen Kommentaren.
+- Benenne Ressourcen, Variablen und Outputs konsistent und sprechend gemäß den Best-Practices.
+- Strukturiere Terraform-Projekte modular (z.B. mit separaten Verzeichnissen für modules, environments, main.tf, variables.tf, outputs.tf etc.).
+- Vermeide Hardcoding von Werten – nutze Variablen und Outputs.
+- Kommentiere komplexe oder nicht-triviale Logik verständlich und knapp.
+- Halte dich an den empfohlenen Codestil: Einrückung, Leerzeilen, Blockstruktur, Reihenfolge der Blöcke.
+- Nutze sinnvolle Standardwerte und Beschreibungstexte für Variablen.
+
+## Examples
+
+<example>
+  resource "aws_instance" "web" {
+    ami           = var.ami_id  # AMI-ID als Variable
+    instance_type = var.instance_type
+    tags = {
+      Name = "web-server-${var.environment}"
+    }
+  }
+
+  # Variablen-Definition mit Beschreibung und Default
+  variable "instance_type" {
+    description = "EC2 Instance Type für Webserver"
+    type        = string
+    default     = "t3.micro"
+  }
+
+  # Projektstruktur:
+  # ├── main.tf
+  # ├── variables.tf
+  # ├── outputs.tf
+  # ├── modules/
+  # └── environments/
+</example>
+
+<example type="invalid">
+  resource "aws_instance" "web" {
+      ami = "ami-123456" # Hardcoded, keine Variable
+      instance_type = "t2.micro" # Hardcoded
+      # Keine Kommentare
+  }
+
+  # Falsche Einrückung (4 Leerzeichen oder Tabs)
+  variable "instance_type" {
+        description = "Typ"
+  }
+</example>
