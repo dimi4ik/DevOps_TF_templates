@@ -13,16 +13,19 @@
   - [x] GitHub Copilot: 6→1 Datei (nur instructions.md)
   - [x] Cursor Rules: 20+→2 Dateien (terraform.mdc, dimas.mdc)
 
-## Phase 2: Dokumentations-Konsolidierung 🔄 IN BEARBEITUNG
+## Phase 2: Dokumentations-Konsolidierung 🔄 BEREIT ZU STARTEN
 
 - [x] **CLAUDE.md** mit AI-Tool Instructions konsolidiert
-- [ ] **README.md** als zentrale Template-Dokumentation überarbeiten
+- [ ] **README.md** als zentrale Template-Dokumentation überarbeiten (HIGH)
   - [ ] Citrix DaaS Fokus statt Azure VM
   - [ ] Multi-Cloud Provider Unterstützung
   - [ ] Template-Anpassungsanleitung
-- [ ] **CHANGELOG.md** mit Template-Versionierung aktualisieren
-- [ ] **Einheitliche Dokumentationsstruktur** erstellen
-- [ ] **Integration aller verbliebenen AI-Tool Instructions**
+- [ ] **CHANGELOG.md** mit Template-Versionierung aktualisieren (MEDIUM)
+- [ ] **Einheitliche Dokumentationsstruktur** erstellen (MEDIUM)
+- [ ] **Integration aller verbliebenen AI-Tool Instructions** (LOW)
+
+### ⚠️ WICHTIGER WORKFLOW-HINWEIS
+**Alle To-dos IMMER in dieser zentralen TEMPLATE_TODO.md speichern** - nicht nur in internen TodoWrite/TodoRead Tools!
 
 ## Phase 3: Template-Struktur Optimierung 📋 AUSSTEHEND
 
