@@ -4,27 +4,45 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-
-**Primary Goal**: 
-
-**Current Status**: Active development with modular Terraform structure
-**Target Platform**: 
-**Core Technologies**: NetScaler VPX, Terraform, VMware vSphere, BGP routing
+**Primary Goal**: DevOps template repository for Citrix DaaS infrastructure projects with comprehensive AI tooling integration
+**Current Status**: Template preparation phase (Bestandsaufnahme) - no actual Terraform code yet, focus on scaffolding and documentation
+**Target Platforms**: Azure Cloud, On-Premises, Multi-Cloud Provider support
+**Core Technologies**: Terraform, Ansible, GitLab CI/CD, Citrix DaaS, VMware vSphere
 
 ## Repository Architecture
 
+This is a **template repository** providing scaffolding for DevOps projects, not a working codebase. The architecture focuses on AI-assisted development workflows and comprehensive tooling integration.
 
 ### Key Directories
 
-- `docs/` - Project documentation including implementation plan and masterplan
+- `docs/` - Project documentation and specifications (XML-formatted promt.md with comprehensive workflow definitions)
+- `.claude/` - 80+ Claude Code slash commands covering development, testing, deployment workflows
+- `.cursor/` - Cursor IDE rules organized by categories (core, terraform, UI, tools, workflows)
+- `.github/copilot/` - GitHub Copilot instructions and configurations
+- `.gitlab/` - GitLab merge request templates
 
+### Development Commands
 
-## Development Workflow
+**Quality Assurance (via pre-commit hooks):**
+```bash
+terraform fmt                # Format Terraform code
+terraform validate          # Validate Terraform configuration
+terraform docs              # Auto-generate documentation
+tflint                      # Terraform linting with comprehensive rules
+trivy                       # Security scanning
+checkov                     # Infrastructure security analysis
+```
 
+**AI-Assisted Development:**
+- Use `/validate`, `/terraform-validate`, `/plan`, `/deploy` slash commands
+- 80+ specialized commands available in `.claude/` directory
+- Workflow-driven development with planning phases
 
 ## Key Configuration Files
 
-## Development Notes
+- `.pre-commit-config.yaml` - Comprehensive hooks for Terraform validation, formatting, security scanning
+- `docs/promt/promt.md` - XML-formatted project specification and workflow definition
+- `.gitignore` - Extensive coverage for Terraform, Visual Studio, macOS, development artifacts
 
 ## User Preferences and Workflow (dima@lejkin.de)
 
