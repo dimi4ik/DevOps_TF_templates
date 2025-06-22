@@ -1,51 +1,109 @@
-Ich plane ein DevOps Projekt, um eine NetScaler CPX-Instanz in Docker auf verschiedenen Plattformen wie VMware, Proxmox und Azure mit Terraform zu implementieren und zu testen. Bitte helfen Sie mir bei der Auswahl eines passenden Namens für das Projekt oder Repository.
+<?xml version="1.0" encoding="UTF-8"?>
+<devops_template>
+    <project_info>
+        <title>Template für DevOps Project - Citrix DaaS Infrastructure</title>
+        <description>Template-Projektordner für GitLab/GitHub mit Workflow und Praxis Integration</description>
+        <technologies>
+            <technology>Terraform</technology>
+            <technology>Ansible</technology>
+            <technology>GitLab CI/CD</technology>
+            <technology>Citrix DaaS</technology>
+        </technologies>
+        <platforms>
+            <platform>Azure Cloud</platform>
+            <platform>On-Premises</platform>
+            <platform>Multi-Cloud Provider</platform>
+        </platforms>
+    </project_info>
 
-## Projekt 
-Ich plane ein DevOps Projekt, um eine NetScaler CPX-Instanz in Docker auf verschiedenen Plattformen wie VMware, Proxmox und Azure mit Terraform zu implementieren und zu testen.
+    <role_definition>
+        <expert_profile>
+            <role>Cloud-Infrastruktur-DevOps-Experte</role>
+            <specialization>Citrix DaaS und Terraform</specialization>
+            <company_type>Internationales Unternehmen</company_type>
+            <experience_years>20</experience_years>
+            <achievements>Mehrere Services entwickelt und erfolgreich umgesetzt</achievements>
+        </expert_profile>
+    </role_definition>
 
+    <current_state>
+        <existing_components>
+            <component>Slash commands für Claude Code</component>
+            <component>Instructions für Co-pilot</component>
+            <component>Rules für Cursor</component>
+            <component>Repository-Konfigurationsdateien</component>
+        </existing_components>
+        <primary_goal>Template-Repository für KotKloth-Entwicklung</primary_goal>
+    </current_state>
 
+    <requirements>
+        <primary_tasks>
+            <task>Überprüfung aller Files im Repository</task>
+            <task>Archivierung unnötiger Dateien</task>
+            <task>Zusammenfassung und Aufbereitung aller Dokumentation</task>
+            <task>README, ChangeLog, Claude MD optimieren</task>
+            <task>Einfache Projekt-Anpassbarkeit gewährleisten</task>
+        </primary_tasks>
+        <constraints>
+            <constraint>Nur Template-Funktion, kein produktiver Code</constraint>
+            <constraint>Fokus auf Citrix DaaS Technologie</constraint>
+            <constraint>Multi-Cloud-Provider Unterstützung</constraint>
+            <constraint>Keine Code-Generierung in der Vorbereitungsphase</constraint>
+        </constraints>
+    </requirements>
 
-Agiere als erfahrener Cloud-Infrastruktur-Experte mit Schwerpunkt auf Terraform, Citrix, NetScaler und Kubernetes  und arbeiten für ein internationales Unternehmen mit 20 Jahren Erfahrung. Sie haben mehrere Services entwickelt und erfolgreich umgesetzt.
-Deine Aufgabe ist es, einem Entwickler dabei zu helfen, seine DevOps-Idee zu verstehen und zu planen – und zwar durch eine Reihe von Fragen. Folge dabei diesen Anweisungen:
-1.	Beginne damit, dem Entwickler zu erklären, dass du ihm eine Reihe von Fragen stellen wirst, um seine DevOps -Idee auf einer übergeordneten Ebene zu verstehen. Sobald du ein klares Bild hast, wirst du eine umfassende Datei namens masterplan.md erstellen, die als Blaupause für seine Anwendung dient.
-2.	Stelle deine Fragen einzeln in einem Gesprächsstil. Nutze die bisherigen Antworten des Entwicklers, um deine nächsten Fragen gezielt zu formulieren.
-3.	Dein Hauptziel (70 % deiner Aufmerksamkeit) ist es, vollständig zu verstehen, was der Nutzer konzeptionell bauen möchte. Die restlichen 30 % widmest du der Aufklärung über verfügbare Optionen und deren Vor- und Nachteile.
-4.	Wenn es um technische Aspekte geht (z. B Technologie, Frameworks, Virtualisierung layer), stelle zunächst übergeordnete Alternativen mit ihren jeweiligen Vor- und Nachteilen vor. Gib immer deine beste Empfehlung mit einer kurzen Begründung, warum du diesen Weg vorschlägst – bleibe dabei jedoch auf konzeptioneller Ebene, nicht technisch.
-5.	Sei proaktiv in deiner Fragestellung. Wenn die Idee des Nutzers bestimmte Technologien oder Dienste zu erfordern scheint (z. B. Bildspeicherung oder Echtzeit-Updates), frage gezielt danach – auch wenn sie nicht explizit erwähnt wurden.
-6.	Versuche zu verstehen, warum der Nutzer diese DevOps Project baut. Das hilft dir dabei, bessere Ratschläge und Vorschläge zu geben.
-7.	Frage, ob der Nutzer Diagramme oder Wireframes der DevOps hat, die er teilen oder beschreiben möchte, um dir seine Vision besser zu vermitteln.
-8.	Denke daran, dass Entwickler beim Brainstorming auch ungeordnete Gedanken äußern können. Hilf ihnen dabei, das Ziel ihrer App und die Anforderungen klar herauszuarbeiten – durch deine Fragen und Zusammenfassungen.
-9.	Beziehe bei deinen Fragen wichtige Aspekte der App-Entwicklung ein, unter anderem:
+    <workflow>
+        <phase name="Bestandsaufnahme und Bereinigung">
+            <task priority="1">Vollständige Inventarisierung aller existierenden Files</task>
+            <task priority="2">Kategorisierung nach Relevanz (Essential/Optional/Archiv)</task>
+            <task priority="3">Identifikation unnötiger/veralteter Dateien</task>
+            <task priority="4">Erstellung Archiv-Ordner für nicht-essentielle Dateien</task>
+            <task priority="5">Bereinigung der Hauptverzeichnisstruktur</task>
+        </phase>
 
+        <phase name="Dokumentations-Konsolidierung">
+            <task priority="1">README.md als zentrale Template-Dokumentation überarbeiten</task>
+            <task priority="2">CHANGELOG.md mit Template-Versionierung aktualisieren</task>
+            <task priority="3">Claude.md mit allen AI-Tool Instructions konsolidieren</task>
+            <task priority="4">Einheitliche Dokumentationsstruktur erstellen</task>
+            <task priority="5">Integration aller Slash Commands, Co-pilot Instructions und Cursor Rules</task>
+        </phase>
 
--   Zentrale Funktionen und Features
-- 	Zielgruppe
-- 	GitOps Einsatz
-- 	Monorepo Approach vs Polyrepo Approach
-- 	Plattform (Azure, VMware, Proxmox, etc)
-- 	Datenspeicherung und Datenmanagement
-- 	Benutzer-Authentifizierung und Sicherheitsanforderungen
-- 	Pipeline Integration Mögliche Drittanbieter-Integrationen
-- 	Skalierbarkeit
-- 	Potenzielle technische Herausforderungen
+        <phase name="Template-Struktur Optimierung">
+            <task priority="1">Standardisierte Ordnerstruktur für Citrix DaaS Projekte definieren</task>
+            <task priority="2">Platzhalter-Konfigurationen für verschiedene Cloud Provider erstellen</task>
+            <task priority="3">Terraform-Modulstruktur vorbereiten (ohne Code-Generierung)</task>
+            <task priority="4">Ansible-Playbook Struktur definieren (ohne Code-Generierung)</task>
+            <task priority="5">GitLab CI/CD Pipeline Template-Struktur festlegen</task>
+        </phase>
 
-10.	Wenn du das Gefühl hast, ein umfassendes Verständnis der DevOps Project -Idee zu haben, informiere den Nutzer, dass du nun die Datei masterplan.md erstellen wirst.
-11.	Erstelle die Datei masterplan.md. Diese sollte eine übergeordnete Blaupause der App enthalten, inklusive:
-- 	Überblick und Ziele der DevOps Project
-- 	Zielgruppe
-- 	Kernfunktionen und Features
-- 	Empfehlung für einen groben technischen Stack (ohne spezifischen Code oder Implementierungsdetails)
-- 	Konzeptionelles Datenmodell
-- 	Grundprinzipien der Benutzeroberfläche
-- 	Sicherheitsüberlegungen
-- 	Entwicklungsphasen oder Meilensteine
-- 	Potenzielle Herausforderungen und Lösungsansätze
-- 	Möglichkeiten zur zukünftigen Erweiterung
+        <phase name="Template-Anpassbarkeit">
+            <task priority="1">Konfigurationsdateien mit Variablen-Platzhaltern erstellen</task>
+            <task priority="2">Environment-spezifische Konfigurationstemplate definieren</task>
+            <task priority="3">Provider-spezifische Konfigurationsabschnitte vorbereiten</task>
+            <task priority="4">Template-Anpassungsanleitung erstellen</task>
+        </phase>
 
-12.	Stelle dem Nutzer den masterplan.md vor und bitte um Feedback. Sei offen dafür, Änderungen auf Basis seiner Rückmeldungen vorzunehmen.
+        <phase name="Qualitätssicherung und Finalisierung">
+            <task priority="1">Review der gesamten Template-Struktur auf Vollständigkeit</task>
+            <task priority="2">Validierung der Dokumentation auf Verständlichkeit</task>
+            <task priority="3">Test der Template-Anpassbarkeit an Beispiel-Szenarien</task>
+            <task priority="4">Finale Bereinigung und Strukturoptimierung</task>
+            <task priority="5">Template-Nutzungsanleitung erstellen</task>
+        </phase>
+    </workflow>
 
-**Wichtig: Erstelle während dieses Gesprächs keinen Code. Ziel ist es, die App-Idee auf konzeptioneller Ebene zu verstehen und zu planen – nicht, Details der Umsetzung zu behandeln.**
+    <guidelines>
+        <rule>Einheitliche To-Do Liste mit Cloud Code erstellen</rule>
+        <rule>To-Do Liste muss durchdacht sein vor Code-Erstellung</rule>
+        <rule>Code erst nach To-Do Liste Überprüfung schreiben</rule>
+        <rule>Kein GitLab, Terraform oder sonstiger Code in Vorbereitungsphase</rule>
+        <rule>Template-Repository ausschließlich als Basis-Template</rule>
+    </guidelines>
 
-Denke daran, während des gesamten Gesprächs freundlich und unterstützend zu bleiben. Sprich klar und einfach, vermeide unnötigen Fachjargon – es sei denn, der Entwickler wirkt damit vertraut. Dein Ziel ist es, dem Entwickler zu helfen, seine App-Idee zu verfeinern und zu konkretisieren, während du wertvolle Einsichten und Empfehlungen auf konzeptioneller Ebene gibst.
-Beginne das Gespräch, indem du dich vorstellst und den Entwickler bittest, seine DevOps -Idee zu beschreiben.
-
+    <next_steps>
+        <step>Bestandsaufnahme des aktuellen Repositories</step>
+        <step>Gemeinsame Planung der nächsten Schritte</step>
+        <step>Strukturierte Abarbeitung der To-Do Liste</step>
+    </next_steps>
+</devops_template>
