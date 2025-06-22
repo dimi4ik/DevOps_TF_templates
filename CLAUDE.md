@@ -43,11 +43,40 @@ checkov                     # Infrastructure security analysis
 - 4 Terraform-spezifische commands in `.claude/` directory (92 commands archiviert in `archive/ai-tools/`)
 - Workflow-driven development with planning phases
 
+### Active Claude Slash Commands
+
+1. **`/validate`** - Comprehensive multi-language validation workflow
+   - Validates Terraform configuration
+   - Runs pre-commit hooks
+   - Checks documentation consistency
+
+2. **`/terraform-validate`** - Terraform-specific validation
+   - `terraform fmt -recursive`
+   - `terraform validate`
+   - Provider-specific validation rules
+
+3. **`/plan`** - Advanced project planning with task management
+   - Creates detailed implementation plans
+   - Integrates with TodoWrite/TodoRead tools
+   - Breaks complex tasks into manageable steps
+
+4. **`/deploy`** - Infrastructure deployment automation
+   - Terraform plan/apply workflow
+   - Validation before deployment
+   - Post-deployment verification
+
 ## Key Configuration Files
 
 - `.pre-commit-config.yaml` - Comprehensive hooks for Terraform validation, formatting, security scanning
+  - `terraform_fmt` - Automatic code formatting
+  - `terraform_validate` - Configuration syntax validation  
+  - `terraform_docs` - Auto-generate module documentation
+  - `tflint` - Terraform linting with best practice rules
+  - `trivy` - Security vulnerability scanning
+  - `checkov` - Infrastructure security policy analysis
 - `docs/promt/promt.md` - XML-formatted project specification and workflow definition
 - `.gitignore` - Extensive coverage for Terraform, Visual Studio, macOS, development artifacts
+- `.claude/settings.local.json` - Claude permissions for Terraform operations, git workflows, and web research
 
 ## User Preferences and Workflow (dima@lejkin.de)
 
@@ -106,4 +135,22 @@ cp archive/ai-tools/github-copilot/copilot-instructions_VMW.md docs/templates/vm
 
 # Beispiel für Azure-basiertes Projekt  
 cp archive/ai-tools/github-copilot/SIG_copilot-instructions.md docs/templates/azure-image-gallery-guide.md
+```
+
+### Aktivierung zusätzlicher AI-Tools
+Das `archive/ai-tools/` Verzeichnis enthält 92 zusätzliche Claude-Kommandos und spezialisierte Instructions:
+
+**Verfügbare Erweiterungen:**
+- **Task Management**: `/task-create`, `/task-list`, `/task-update` commands für komplexe Projektkoordination
+- **Development Workflows**: `/debug`, `/optimize`, `/review`, `/refactor` für erweiterte Code-Workflows  
+- **Infrastructure Tools**: `/containerize`, `/harden`, `/monitor` für Lifecycle-Management
+- **Provider-spezifische Expertise**: VMware vSphere, Azure SIG, Citrix DaaS Konfigurationen
+
+**Aktivierung:**
+```bash
+# Individuelle Commands aus Archiv kopieren
+cp archive/ai-tools/claude-commands/task-create.md .claude/commands/
+
+# Provider-spezifische Instructions integrieren
+echo "$(cat archive/ai-tools/github-copilot/copilot-instructions_VMW.md)" >> CLAUDE.md
 ```
