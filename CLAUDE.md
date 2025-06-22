@@ -107,6 +107,65 @@ checkov                     # Infrastructure security analysis
 
 ### Project-Specific Notes
 
+## Terraform Development Guidelines (Claude-spezifisch)
+
+### Terraform Best Practices für Claude Code
+
+**Code-Qualität und Struktur:**
+- Führe automatisch `terraform fmt -recursive` vor jeder Änderung aus
+- Nutze `terraform validate` für Syntax-Prüfung vor Commits
+- Strukturiere Terraform-Dateien nach diesem Schema:
+  ```
+  ├── main.tf          # Hauptressourcen und Modulaufrufe
+  ├── variables.tf     # Eingabevariablen mit Validierungen
+  ├── outputs.tf       # Strukturierte Ausgaben
+  ├── providers.tf     # Providerkonfiguration
+  ├── versions.tf      # Provider-Versionseinschränkungen
+  └── locals.tf        # Lokale Variablen und Berechnungen
+  ```
+
+**Sicherheits- und Qualitätspraxis:**
+- Nutze Validierungsregeln für kritische Variablen mit `precondition`-Blöcken
+- Markiere sensible Variablen mit `sensitive = true`
+- Verwende Remote-Backends (GitLab) für Terraform State Management
+- Integriere Checkov und TFLint für Security-Scanning (via `/validate` command)
+- Keine hartcodierten Secrets - verwende HashiCorp Vault oder Azure Key Vault
+
+**Namenskonventionen:**
+- Ressourcennamen: `<projekt>-<umgebung>-<ressourcentyp>-<zweck>` (snake_case)
+- Variablen und Outputs: beschreibend und konsistent
+- Beispiel: `citrix_daas_dev_vm_controller`, `two_adc` (nicht `netscaler_count`)
+
+**Module-Entwicklung:**
+- DRY-Prinzip konsequent anwenden
+- Module mit klaren Input/Output-Variablen strukturieren
+- `for_each` bevorzugen gegenüber `count` für bessere Stabilität
+- Modulausgaben für bessere Modularität definieren
+
+**Tagging-Strategie (Pflicht für alle Ressourcen):**
+```hcl
+common_tags = {
+  Environment   = var.environment
+  Project       = var.project_name
+  CostCenter    = var.cost_center
+  Owner         = var.owner
+  ManagedBy     = "Terraform"
+  CreationDate  = formatdate("YYYY-MM-DD", timestamp())
+  Purpose       = var.resource_purpose
+}
+```
+
+**Claude-spezifische Workflows:**
+- Verwende `/terraform-validate` für umfassende Terraform-Validierung
+- Nutze `/plan` für strukturierte Implementierungsplanung mit TodoWrite
+- MultiEdit für gleichzeitige Änderungen mehrerer `.tf` Dateien
+- WebFetch für Terraform Provider-Dokumentation während der Entwicklung
+
+**Provider-Versionierung:**
+- Flexible Versionierung mit `~>` für Patch-Updates
+- Konkrete Versionen für stabile Production-Deployments
+- Beispiel: `version = "~> 3.0"` für Entwicklung, `version = "3.74.0"` für Produktion
+
 ## Archivierte AI-Tool Instructions (Integration Reference)
 
 ### VMware/Citrix-spezifische Instructions (aus Archiv)
