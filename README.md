@@ -26,11 +26,11 @@ Dieses Repository ist ein **DevOps-Template** für Citrix Desktop-as-a-Service (
 
 ### Unterstützte Plattformen
 - **Azure Cloud** - Primäre Cloud-Plattform
-- **On-Premises** - Lokale Infrastruktur
-- **Multi-Cloud** - Hybride und Multi-Provider Szenarien
+- **Lokal (On-Premises)** - Lokale Infrastruktur
+- **Multi-Cloud** - Hybride und Multi-Anbieter Szenarien
 
 ### Zusätzliche Tools
-- **VMware vSphere** - Virtualisierungsplattform (für On-Premises Deployments)
+- **VMware vSphere** - Virtualisierungsplattform (für lokale Bereitstellungen)
 
 ## 📁 Repository-Struktur
 
@@ -38,11 +38,11 @@ Dieses Repository ist ein **DevOps-Template** für Citrix Desktop-as-a-Service (
 citrix-daas-template/
 ├── .claude/                    # Claude Code AI-Kommandos (4 Terraform-spezifische)
 ├── .cursor/                    # Cursor IDE Regeln (Terraform Best Practices)
-├── .github/                    # GitHub Workflows und Copilot Instructions
-├── .gitlab/                    # GitLab Merge Request Templates
+├── .github/                    # GitHub Workflows und Copilot Anweisungen
+├── .gitlab/                    # GitLab Merge Request Vorlagen
 ├── docs/                       # Projektdokumentation
-│   ├── architecture/          # Systemarchitektur und Design-Patterns
-│   ├── deployment/            # Deployment-Anleitungen und Operations
+│   ├── architecture/          # Systemarchitektur und Design-Muster
+│   ├── deployment/            # Bereitstellungsanleitungen und Betrieb
 │   ├── templates/             # Template-Anpassung und Beispiele
 │   └── promt/                 # XML-basierte Projektspezifikation
 ├── archive/                    # Archivierte AI-Tool-Sammlungen
@@ -112,15 +112,15 @@ Das Template enthält umfassende Pre-Commit Hooks:
 - **[GitLab CLI](https://gitlab.com/gitlab-org/cli)** (für MR-Verwaltung)
 - **[Pre-commit](https://pre-commit.com/)** (für Code-Qualität)
 
-### Cloud-Provider Access
-- **Azure CLI** (für Azure-Deployments)
-- **Citrix DaaS** Tenant und API-Zugang
-- **VMware vCenter** (für On-Premises Deployments)
+### Cloud-Anbieter Zugang
+- **Azure CLI** (für Azure-Bereitstellungen)
+- **Citrix DaaS** Mandant und API-Zugang
+- **VMware vCenter** (für lokale Bereitstellungen)
 
-### Optional: AI-Development
-- **[Claude Code](https://claude.ai/code)** - AI-assistierte Entwicklung
-- **[Cursor IDE](https://cursor.sh/)** - AI-Code Editor
-- **GitHub Copilot** - Code-Completion
+### Optional: KI-Entwicklung
+- **[Claude Code](https://claude.ai/code)** - KI-unterstützte Entwicklung
+- **[Cursor IDE](https://cursor.sh/)** - KI-Code Editor
+- **GitHub Copilot** - Code-Vervollständigung
 
 ## 📋 Template-Anpassung
 
@@ -138,11 +138,11 @@ Das Template enthält umfassende Pre-Commit Hooks:
 # GitLab CI/CD Variablen setzen
 ```
 
-### 3. Cloud-Provider Setup
+### 3. Cloud-Anbieter Einrichtung
 ```bash
 # Azure: Service Principal konfigurieren
-# On-Premises: Netzwerk-Zugang einrichten
-# Multi-Cloud: Provider-Credentials verwalten
+# Lokal: Netzwerk-Zugang einrichten
+# Multi-Cloud: Anbieter-Anmeldedaten verwalten
 ```
 
 ## 🏷️ Tagging-Strategie
@@ -185,12 +185,12 @@ refactor: Ansible Playbook Umstrukturierung
 test: Terraform Validierung erweitert
 ```
 
-## 📞 Support
+## 📞 Unterstützung
 
 Bei Fragen oder Problemen:
 1. **Issues** in diesem Repository erstellen
 2. **GitLab Merge Requests** für Verbesserungsvorschläge
-3. **AI-Tools** für Entwicklungsunterstützung nutzen
+3. **KI-Tools** für Entwicklungsunterstützung nutzen
 
 ---
 
