@@ -15,11 +15,16 @@ This is a **template repository** providing scaffolding for DevOps projects, not
 
 ### Key Directories
 
-- `docs/` - Project documentation and specifications (XML-formatted promt.md with comprehensive workflow definitions)
-- `.claude/` - 80+ Claude Code slash commands covering development, testing, deployment workflows
-- `.cursor/` - Cursor IDE rules organized by categories (core, terraform, UI, tools, workflows)
-- `.github/copilot/` - GitHub Copilot instructions and configurations
+- `docs/` - Project documentation and specifications
+  - `architecture/` - Systemarchitektur und Design-Patterns  
+  - `deployment/` - Deployment-Anleitungen und Operations
+  - `templates/` - Template-Anpassung und Beispiele
+  - `promt/` - XML-formatted project specification and workflow definitions
+- `.claude/` - 4 Terraform-spezifische Claude Code slash commands (validate, terraform-validate, plan, deploy)
+- `.cursor/` - Cursor IDE rules für Terraform Best Practices (konsolidiert)
+- `.github/copilot/` - GitHub Copilot instructions mit Git-Workflow Integration (konsolidiert)
 - `.gitlab/` - GitLab merge request templates
+- `archive/` - Archivierte AI-Tool-Sammlungen (908K)
 
 ### Development Commands
 
@@ -35,7 +40,7 @@ checkov                     # Infrastructure security analysis
 
 **AI-Assisted Development:**
 - Use `/validate`, `/terraform-validate`, `/plan`, `/deploy` slash commands
-- 80+ specialized commands available in `.claude/` directory
+- 4 Terraform-spezifische commands in `.claude/` directory (92 commands archiviert in `archive/ai-tools/`)
 - Workflow-driven development with planning phases
 
 ## Key Configuration Files
@@ -72,3 +77,33 @@ checkov                     # Infrastructure security analysis
 - **Configuration**: Prefer centralized configuration (`terraform.auto.tfvars`) over multiple files
 
 ### Project-Specific Notes
+
+## Archivierte AI-Tool Instructions (Integration Reference)
+
+### VMware/Citrix-spezifische Instructions (aus Archiv)
+Aus `archive/ai-tools/github-copilot/copilot-instructions_VMW.md`:
+- **VMware vSphere Integration**: Expertise für Citrix-Ressourcen in VMware-Umgebungen
+- **Hypervisor-Connections**: vSphere-Hypervisor zu Machine Catalogs Beziehungen
+- **VDI-Skalierung**: Terraform-basierte VDI-Umgebungen mit Citrix
+
+### Azure Shared Image Gallery Instructions (aus Archiv)  
+Aus `archive/ai-tools/github-copilot/SIG_copilot-instructions.md`:
+- **Azure SIG Expertise**: Zentrale Verwaltung von VM-Images für Cloud-Deployments
+- **Image Versionierung**: Repository für verwaltete Images über Azure-Regionen
+- **Namenskonventionen**: Strukturierte Naming Patterns für Enterprise-Umgebungen
+
+### Template-Integration Guidelines
+Diese archivierten Instructions wurden bewusst **nicht** in die aktive CLAUDE.md integriert, da:
+1. **Template-Fokus**: Repository ist Template, nicht produktive VMware/Azure Implementierung
+2. **Spezifität**: VMware/Azure-spezifische Details gehören in projektspezifische Anpassungen
+3. **Flexibilität**: Template soll für verschiedene Cloud-Provider und Szenarien adaptierbar bleiben
+
+### Wiederverwendung für Projekte
+Für konkrete Citrix DaaS Projekte können relevante Instructions aus `archive/ai-tools/` in projektspezifische CLAUDE.md kopiert werden:
+```bash
+# Beispiel für VMware-basiertes Projekt
+cp archive/ai-tools/github-copilot/copilot-instructions_VMW.md docs/templates/vmware-integration-guide.md
+
+# Beispiel für Azure-basiertes Projekt  
+cp archive/ai-tools/github-copilot/SIG_copilot-instructions.md docs/templates/azure-image-gallery-guide.md
+```

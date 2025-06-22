@@ -41,6 +41,9 @@ citrix-daas-template/
 ├── .github/                    # GitHub Workflows und Copilot Instructions
 ├── .gitlab/                    # GitLab Merge Request Templates
 ├── docs/                       # Projektdokumentation
+│   ├── architecture/          # Systemarchitektur und Design-Patterns
+│   ├── deployment/            # Deployment-Anleitungen und Operations
+│   ├── templates/             # Template-Anpassung und Beispiele
 │   └── promt/                 # XML-basierte Projektspezifikation
 ├── archive/                    # Archivierte AI-Tool-Sammlungen
 ├── .pre-commit-config.yaml    # Terraform Qualitätssicherung
