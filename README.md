@@ -30,9 +30,7 @@ Dieses Repository ist ein **DevOps-Template** für Citrix Desktop-as-a-Service (
 - **Multi-Cloud** - Hybride und Multi-Provider Szenarien
 
 ### Zusätzliche Tools
-- **NetScaler VPX** - Application Delivery Controller
-- **VMware vSphere** - Virtualisierungsplattform
-- **BGP Routing** - Netzwerk-Routing Protokoll
+- **VMware vSphere** - Virtualisierungsplattform (für On-Premises Deployments)
 
 ## 📁 Repository-Struktur
 
