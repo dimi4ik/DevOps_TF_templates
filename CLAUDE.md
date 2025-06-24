@@ -196,20 +196,35 @@ cp archive/ai-tools/github-copilot/copilot-instructions_VMW.md docs/templates/vm
 cp archive/ai-tools/github-copilot/SIG_copilot-instructions.md docs/templates/azure-image-gallery-guide.md
 ```
 
-### Aktivierung zusätzlicher AI-Tools
-Das `archive/ai-tools/` Verzeichnis enthält 92 zusätzliche Claude-Kommandos und spezialisierte Instructions:
+### Additional Active Claude Commands
 
-**Verfügbare Erweiterungen:**
-- **Task Management**: `/task-create`, `/task-list`, `/task-update` commands für komplexe Projektkoordination
-- **Development Workflows**: `/debug`, `/optimize`, `/review`, `/refactor` für erweiterte Code-Workflows  
-- **Infrastructure Tools**: `/containerize`, `/harden`, `/monitor` für Lifecycle-Management
-- **Provider-spezifische Expertise**: VMware vSphere, Azure SIG, Citrix DaaS Konfigurationen
+#### Task Management System (moved from archive)
+- `/task-create` - Create hierarchical plans, tasks, and subtasks
+- `/task-update` - Update status, progress, and priorities  
+- `/task-list` - List and filter tasks with hierarchical view
+- `/task-show` - View detailed task information and context
+- `/task-log` - Add timestamped progress updates
+- `/task-search` - Search across all tasks and plans
+- `/task-archive` - Archive completed work items
 
-**Aktivierung:**
+#### Development & Operations (moved from archive)
+- `/debug` - Multi-language debugging assistance (Terraform, Ansible, Go, Python)
+- `/monitor` - Infrastructure and application monitoring setup
+- `/harden` - Security hardening analysis and recommendations
+- `/optimize` - Performance optimization strategies
+- `/benchmark` - Comprehensive performance analysis
+- `/containerize` - Container and deployment optimization
+- `/dependencies` - Dependency analysis and management
+
+#### Command Management Strategy
+**Active Commands**: Located in `.claude/commands/` - ready for immediate use
+**Archived Commands**: Located in `archive/ai-tools/claude-commands/` - available for future activation
+
+**Activating Additional Commands:**
 ```bash
-# Individuelle Commands aus Archiv kopieren
-cp archive/ai-tools/claude-commands/task-create.md .claude/commands/
+# Command aus Archiv aktivieren
+mv archive/ai-tools/claude-commands/COMMAND_NAME.md .claude/commands/
 
-# Provider-spezifische Instructions integrieren
-echo "$(cat archive/ai-tools/github-copilot/copilot-instructions_VMW.md)" >> CLAUDE.md
+# Command deaktivieren (zurück ins Archiv)
+mv .claude/commands/COMMAND_NAME.md archive/ai-tools/claude-commands/
 ```
