@@ -4,113 +4,111 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is the **NetScaler VPX Terraform Automation Kit** - an Infrastructure-as-Code solution for automated deployment and configuration of Citrix NetScaler VPX HA-Pairs on VMware vSphere 6.7.
-
-**Primary Goal**: Eliminate manual configuration steps in NetScaler deployments, reducing deployment time from ~4 hours to ~30 minutes.
-
-**Current Status**: Active development with modular Terraform structure
-**Target Platform**: VMware vSphere 6.7+
-**Core Technologies**: NetScaler VPX, Terraform, VMware vSphere, BGP routing
+**Primary Goal**: DevOps template repository for Citrix DaaS infrastructure projects with comprehensive AI tooling integration
+**Current Status**: Template preparation phase - no actual Terraform code yet, focus on scaffolding and documentation
+**Target Platforms**: Azure Cloud, On-Premises, Multi-Cloud Provider support
+**Core Technologies**: Terraform, Ansible, GitLab CI/CD, Citrix DaaS, VMware vSphere
 
 ## Repository Architecture
 
-The project follows a modular Terraform structure with clear separation between VM creation, NetScaler configuration, and environment-specific settings:
+This is a **template repository** providing scaffolding for DevOps projects, not a working codebase. The architecture focuses on AI-assisted development workflows and comprehensive tooling integration.
 
 ### Key Directories
-- `terraform/` - Main Terraform configuration for HA-Pair deployment and data sources
-- `modules/` - Reusable Terraform modules (netscaler-vm, netscaler-config, netscaler-ha, netscaler-bgp)
-- `example/citrix-adc/` - Production-ready single NetScaler deployment with advanced application configuration
-- `environments/` - Environment-specific configurations (test/, prod/)
-- `templates/` - Cloud-init and configuration templates
-- `docs/` - Project documentation including implementation plan and masterplan
 
-### Module Structure
-Each module follows Terraform best practices:
-- `main.tf` - Primary resource definitions
-- `variables.tf` - Input variables with validation
-- `outputs.tf` - Output values for module chaining
+- `docs/` - Project documentation and specifications
+  - `architecture/` - System architecture and design patterns  
+  - `deployment/` - Deployment guides and operations
+  - `templates/` - Template customization and examples
+  - `promt/` - XML-formatted project specification and workflow definitions
+- `.claude/` - 19 Claude Code slash commands for comprehensive development workflow
+- `.cursor/` - Cursor IDE rules for Terraform best practices (consolidated)
+- `.github/copilot/` - GitHub Copilot instructions with Git workflow integration (consolidated)
+- `.gitlab/` - GitLab merge request templates
+- `archive/` - Archived AI tool collections (908K)
 
-## Common Development Commands
+### Development Commands
 
+**Quality Assurance (via pre-commit hooks):**
 ```bash
-# Main HA-Pair deployment (run from terraform/ directory)
-terraform init
-terraform plan -var-file="../environments/test/terraform.tfvars"
-terraform apply -var-file="../environments/test/terraform.tfvars"
-terraform destroy -var-file="../environments/test/terraform.tfvars"
-
-# Simplified deployment (uses terraform.auto.tfvars)
-terraform apply
-
-# Example single NetScaler deployment (run from example/citrix-adc/ directory)
-terraform init
-terraform plan
-terraform apply
-
-# Validate Terraform configuration
-terraform validate
-terraform fmt -recursive
-
-# Module development (run from module directory)
-terraform init
-terraform validate
+terraform fmt                # Format Terraform code
+terraform validate          # Validate Terraform configuration
+terraform docs              # Auto-generate documentation
+tflint                      # Terraform linting with comprehensive rules
+trivy                       # Security scanning
+checkov                     # Infrastructure security analysis
 ```
 
-## Terraform Providers and Versions
+**AI-Assisted Development:**
+- Use `/validate`, `/terraform-validate`, `/plan`, `/deploy` slash commands
+- 19 comprehensive commands in `.claude/` directory
+- Workflow-driven development with planning phases
 
-The project uses specific provider versions defined in `terraform/versions.tf`:
-- **VMware vSphere Provider**: `~> 2.6` for VM deployment and vSphere integration
-- **Citrix NetScaler Provider**: `~> 1.32` for NetScaler configuration
-- **Local Provider**: `~> 2.4` for file handling
-- **Terraform Core**: `>= 1.5.0` required
+### Active Claude Slash Commands
 
-## Development Workflow
+#### Core Infrastructure Commands
+1. **`/validate`** - Comprehensive multi-language validation workflow
+   - Validates Terraform configuration
+   - Runs pre-commit hooks
+   - Checks documentation consistency
 
-The project follows a feature-branch workflow with modular development:
+2. **`/terraform-validate`** - Terraform-specific validation
+   - `terraform fmt -recursive`
+   - `terraform validate`
+   - Provider-specific validation rules
 
-1. **Module Development**: Each NetScaler component (VM, config, HA, BGP) has its own module
-2. **Environment Testing**: Use `environments/test/` for validation before production
-3. **HA-Pair Orchestration**: Primary and secondary NetScaler VMs deployed on separate ESXi hosts
-4. **Configuration Dependencies**: Modules have explicit dependencies (VM → Config → HA → BGP)
+3. **`/plan`** - Advanced project planning with task management
+   - Creates detailed implementation plans
+   - Integrates with TodoWrite/TodoRead tools
+   - Breaks complex tasks into manageable steps
+
+4. **`/deploy`** - Infrastructure deployment automation
+   - Terraform plan/apply workflow
+   - Validation before deployment
+   - Post-deployment verification
+
+#### Task Management System
+5. **`/task-create`** - Create hierarchical plans, tasks, and subtasks
+6. **`/task-update`** - Update status, progress, and priorities  
+7. **`/task-list`** - List and filter tasks with hierarchical view
+8. **`/task-show`** - View detailed task information and context
+9. **`/task-log`** - Add timestamped progress updates
+10. **`/task-search`** - Search across all tasks and plans
+11. **`/task-archive`** - Archive completed work items
+
+#### Development & Operations
+12. **`/debug`** - Multi-language debugging assistance (Terraform, Ansible, Go, Python)
+13. **`/monitor`** - Infrastructure and application monitoring setup
+14. **`/harden`** - Security hardening analysis and recommendations
+15. **`/optimize`** - Performance optimization strategies
+16. **`/benchmark`** - Comprehensive performance analysis
+17. **`/containerize`** - Container and deployment optimization
+18. **`/dependencies`** - Dependency analysis and management
+
+#### Command Management Strategy
+**Active Commands**: Located in `.claude/commands/` - ready for immediate use
+**Archived Commands**: Located in `archive/ai-tools/claude-commands/` - available for future activation
+
+**Activating Additional Commands:**
+```bash
+# Activate command from archive
+mv archive/ai-tools/claude-commands/COMMAND_NAME.md .claude/commands/
+
+# Deactivate command (move back to archive)
+mv .claude/commands/COMMAND_NAME.md archive/ai-tools/claude-commands/
+```
 
 ## Key Configuration Files
 
-- `terraform.tfvars.example` - Template for environment variables
-- `terraform/main.tf` - Data sources for vSphere objects and module orchestration
-- `terraform/variables.tf` - Global variables with validation rules
-- Environment-specific `.tfvars` files contain sensitive data (not committed)
-
-## NetScaler-Specific Architecture
-
-The project supports two deployment patterns:
-
-### HA-Pair Deployment (`terraform/` directory)
-- **VM Creation**: Dual OVA template deployment with anti-affinity rules
-- **Network Configuration**: Management (NSIP), client-side (SNIP), server-side networks
-- **HA Setup**: Active-passive configuration with sync between instances  
-- **BGP Integration**: Routing configuration for virtual network components
-- **Anti-Affinity**: Automatic placement on different ESXi hosts
-
-### Single NetScaler with Advanced Configuration (`example/citrix-adc/` directory)
-- **VM Creation**: Single OVF-based deployment with static MAC assignment
-- **SSL/TLS Management**: Enterprise-grade cipher suites, SNI support, automated LetsEncrypt certificates
-- **Load Balancing**: Virtual servers, service groups, backend server management
-- **Authentication**: Advanced AAA with LDAP integration and Gateway/VPN policies
-- **Feature Toggles**: Granular control over deployment components (VM, config, certificates)
-
-## Security Considerations
-
-- vSphere and NetScaler credentials must be provided via environment variables or `.tfvars` files
-- All sensitive variables are marked with `sensitive = true`
-- BGP authentication keys and SSL certificates require secure handling
-- Network segmentation between management, client, and server VLANs
-
-## Development Notes
-
-- Project documentation is bilingual (German planning docs, English implementation)
-- Focus on modularity and reusability for different deployment scenarios
-- HA-Pair timing and synchronization requires careful dependency management
-- OVA template must be pre-uploaded to vSphere before deployment
+- `.pre-commit-config.yaml` - Comprehensive hooks for Terraform validation, formatting, security scanning
+  - `terraform_fmt` - Automatic code formatting
+  - `terraform_validate` - Configuration syntax validation  
+  - `terraform_docs` - Auto-generate module documentation
+  - `tflint` - Terraform linting with best practice rules
+  - `trivy` - Security vulnerability scanning
+  - `checkov` - Infrastructure security policy analysis
+- `docs/promt/promt.md` - XML-formatted project specification and workflow definition
+- `.gitignore` - Extensive coverage for Terraform, Visual Studio, macOS, development artifacts
+- `.claude/settings.local.json` - Claude permissions for Terraform operations, git workflows, and web research
 
 ## User Preferences and Workflow (dima@lejkin.de)
 
@@ -139,10 +137,61 @@ The project supports two deployment patterns:
 - **Variable Naming**: Use descriptive, consistent naming (e.g., `two_adc` instead of `netscaler_count`)
 - **Configuration**: Prefer centralized configuration (`terraform.auto.tfvars`) over multiple files
 
-### Project-Specific Notes
-- **Current Implementation**: `two_adc` variable controls Single (false) vs HA-Pair (true) deployment
-- **Simplified Workflow**: Colleagues should only need `terraform apply` without parameters
-- **Anti-Affinity**: Use `esxi_hosts` array for HA-Pair VM placement on different hosts
-- **OVF Files**: Store in `terraform/ovf-files/` directory, copy from Windows via WSL if needed
-- **Example vs Main**: Use `example/citrix-adc/` for single VM with advanced features, `terraform/` for HA-Pair production deployments
-- **Module Dependencies**: Example modules use feature toggles (`terraform_settings`) for selective deployment
+## Terraform Development Guidelines (Claude-specific)
+
+### Terraform Best Practices for Claude Code
+
+**Code Quality and Structure:**
+- Always run `terraform fmt -recursive` before any changes
+- Use `terraform validate` for syntax checking before commits
+- Structure Terraform files according to this pattern:
+  ```
+  ├── main.tf          # Main resources and module calls
+  ├── variables.tf     # Input variables with validations
+  ├── outputs.tf       # Structured outputs
+  ├── providers.tf     # Provider configuration
+  ├── versions.tf      # Provider version constraints
+  └── locals.tf        # Local variables and calculations
+  ```
+
+**Security and Quality Practices:**
+- Use validation rules for critical variables with `precondition` blocks
+- Mark sensitive variables with `sensitive = true`
+- Use remote backends (GitLab) for Terraform State Management
+- Integrate Checkov and TFLint for security scanning (via `/validate` command)
+- No hardcoded secrets - use HashiCorp Vault or Azure Key Vault
+
+**Naming Conventions:**
+- Resource names: `<project>-<environment>-<resource-type>-<purpose>` (snake_case)
+- Variables and outputs: descriptive and consistent
+- Example: `citrix_daas_dev_vm_controller`, `two_adc` (not `netscaler_count`)
+
+**Module Development:**
+- Apply DRY principle consistently
+- Structure modules with clear input/output variables
+- Prefer `for_each` over `count` for better stability
+- Define module outputs for better modularity
+
+**Tagging Strategy (Required for all resources):**
+```hcl
+common_tags = {
+  Environment   = var.environment
+  Project       = var.project_name
+  CostCenter    = var.cost_center
+  Owner         = var.owner
+  ManagedBy     = "Terraform"
+  CreationDate  = formatdate("YYYY-MM-DD", timestamp())
+  Purpose       = var.resource_purpose
+}
+```
+
+**Claude-specific Workflows:**
+- Use `/terraform-validate` for comprehensive Terraform validation
+- Use `/plan` for structured implementation planning with TodoWrite
+- MultiEdit for simultaneous changes to multiple `.tf` files
+- WebFetch for Terraform provider documentation during development
+
+**Provider Versioning:**
+- Flexible versioning with `~>` for patch updates
+- Concrete versions for stable production deployments
+- Example: `version = "~> 3.0"` for development, `version = "3.74.0"` for production

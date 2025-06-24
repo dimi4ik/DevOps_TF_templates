@@ -1,172 +1,201 @@
-# Azure VM mit Terraform
+# Citrix DaaS DevOps Template Repository
 
 ![Terraform](https://img.shields.io/badge/Terraform-1.0+-7B42BC?style=for-the-badge&logo=terraform)
-![Azure](https://img.shields.io/badge/Azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![Ansible](https://img.shields.io/badge/Ansible-2.0+-EE0000?style=for-the-badge&logo=ansible&logoColor=white)
+![GitLab](https://img.shields.io/badge/GitLab-CI/CD-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white)
+![Citrix](https://img.shields.io/badge/Citrix-DaaS-0F1419?style=for-the-badge&logo=citrix&logoColor=white)
 
-Dieses Terraform-Projekt ermöglicht die Erstellung und Verwaltung einer virtuellen Maschine in Azure mit entsprechenden Netzwerkkomponenten nach Best Practices.
+## 📋 Template-Übersicht
 
-## Projektbeschreibung
+Dieses Repository ist ein **DevOps-Template** für Citrix Desktop-as-a-Service (DaaS) Infrastruktur-Projekte. Es bietet eine vollständige Grundlage für die Automatisierung und Verwaltung von Citrix DaaS-Umgebungen mit modernen Infrastructure-as-Code (IaC) Praktiken.
 
-Das Projekt stellt eine Linux-VM in Azure bereit, inklusive aller notwendigen Netzwerkkomponenten:
+### 🎯 Projektzweck
 
-- Ressourcengruppe
-- Virtuelles Netzwerk
-- Subnetz
-- Öffentliche IP-Adresse
-- Netzwerksicherheitsgruppe
-- Netzwerkschnittstelle
+- **Template-Repository**: Bereitstellung einer sofort einsatzbereiten Projektstruktur
+- **Multi-Cloud-Support**: Azure Cloud, On-Premises und Multi-Cloud Provider Unterstützung
+- **AI-Integration**: Umfassende Integration mit Claude Code, Cursor und GitHub Copilot
+- **Enterprise-Ready**: Produktionstaugliche Konfigurationen und Best Practices
 
-Die VM wird mit Ubuntu 18.04 LTS erstellt und ist über SSH erreichbar. Die Konfiguration folgt Azure und Terraform Best Practices.
+## 🏗️ Technologie-Stack
 
-## Projektstruktur
+### Kern-Technologien
+- **[Terraform](https://www.terraform.io/)** - Infrastructure as Code
+- **[Ansible](https://www.ansible.com/)** - Konfigurationsmanagement und Automatisierung
+- **[GitLab CI/CD](https://docs.gitlab.com/ee/ci/)** - Continuous Integration/Deployment
+- **[Citrix DaaS](https://www.citrix.com/products/citrix-daas/)** - Desktop-as-a-Service Platform
+
+### Unterstützte Plattformen
+- **Azure Cloud** - Primäre Cloud-Plattform
+- **Lokal (On-Premises)** - Lokale Infrastruktur
+- **Multi-Cloud** - Hybride und Multi-Anbieter Szenarien
+
+### Zusätzliche Tools
+- **VMware vSphere** - Virtualisierungsplattform (für lokale Bereitstellungen)
+
+## 📁 Repository-Struktur
 
 ```
-terraform/
-├── main.tf               # Hauptkonfigurationsdatei
-├── variables.tf          # Eingabevariablen
-├── outputs.tf            # Ausgabewerte
-├── terraform.tfvars      # Variablenwerte
-├── README.md             # Projektdokumentation
-├── .terraform-docs.yml   # Konfiguration für terraform-docs
-├── generate-docs.sh      # Skript für die Dokumentationsgenerierung
-└── examples/             # Beispiele und verbesserte Versionen
-    ├── main_improved.tf  # Verbesserte Version mit Modulen
-    ├── modules/          # Modulbeispiele
-    │   └── network/      # Beispiel für Netzwerkmodul
-    └── README.md         # Beispieldokumentation
+citrix-daas-template/
+├── .claude/                    # Claude Code AI-Kommandos (4 Terraform-spezifische)
+├── .cursor/                    # Cursor IDE Regeln (Terraform Best Practices)
+├── .github/                    # GitHub Workflows und Copilot Anweisungen
+├── .gitlab/                    # GitLab Merge Request Vorlagen
+├── docs/                       # Projektdokumentation
+│   ├── architecture/          # Systemarchitektur und Design-Muster
+│   ├── deployment/            # Bereitstellungsanleitungen und Betrieb
+│   ├── templates/             # Template-Anpassung und Beispiele
+│   └── promt/                 # XML-basierte Projektspezifikation
+├── archive/                    # Archivierte AI-Tool-Sammlungen
+├── .pre-commit-config.yaml    # Terraform Qualitätssicherung
+├── CLAUDE.md                  # AI-Assistant Konfiguration
+├── CHANGELOG.md               # Versionierung und Änderungshistorie
+└── TEMPLATE_TODO.md           # Projekt-Roadmap und Aufgabenliste
 ```
 
-## Voraussetzungen
+## 🚀 Template-Verwendung
 
-- [Terraform](https://www.terraform.io/downloads.html) (Version >= 1.0.0)
-- [Azure CLI](https://docs.microsoft.com/de-de/cli/azure/install-azure-cli) (für die Authentifizierung)
-- Azure-Subscription
-- SSH-Schlüsselpaar (für den Zugriff auf die VM)
-
-## Verwendung
-
-### Authentifizierung bei Azure
-
-Bevor Sie Terraform ausführen, müssen Sie sich bei Azure authentifizieren:
-
+### 1. Repository-Setup
 ```bash
-az login
+# Template als neue Repository verwenden
+git clone <dieses-template-repo> mein-citrix-projekt
+cd mein-citrix-projekt
+
+# Template-spezifische Anpassungen
+# - Projektname in CLAUDE.md aktualisieren
+# - Umgebungs-spezifische Variablen definieren
+# - Cloud-Provider Konfiguration anpassen
 ```
 
-### Terraform-Befehle
-
-1. Navigieren Sie in das Terraform-Verzeichnis:
-
-   ```bash
-   cd terraform
-   ```
-
-2. Initialisierung des Projekts:
-
-   ```bash
-   terraform init
-   ```
-
-3. Überprüfen des Plans:
-
-   ```bash
-   terraform plan -out=tfplan
-   ```
-
-4. Anwenden des Plans:
-
-   ```bash
-   terraform apply tfplan
-   ```
-
-5. Löschen der Ressourcen:
-
-   ```bash
-   terraform destroy
-   ```
-
-### Anpassung der Konfiguration
-
-Die Konfiguration kann über die Datei `terraform.tfvars` angepasst werden:
-
-```terraform
-prefix              = "azure-vm"
-location            = "westeurope"
-resource_group_name = "terraform-vm-rg"
-vm_size             = "Standard_B1s"
-computer_name       = "linuxvm"
-admin_username      = "azureuser"
-ssh_public_key_path = "~/.ssh/id_rsa.pub"
-```
-
-## Variablen
-
-| Name | Beschreibung | Typ | Standard |
-|------|-------------|------|---------|
-| `prefix` | Präfix für alle Ressourcennamen | string | "azure-vm" |
-| `location` | Azure Region für die Ressourcen | string | "westeurope" |
-| `resource_group_name` | Name der Ressourcengruppe | string | "terraform-vm-rg" |
-| `vm_size` | Größe der virtuellen Maschine | string | "Standard_B1s" |
-| `computer_name` | Name des Computers in der VM | string | "linuxvm" |
-| `admin_username` | Benutzername für den Admin-Zugang | string | "azureuser" |
-| `ssh_public_key_path` | Pfad zum öffentlichen SSH-Schlüssel | string | "~/.ssh/id_rsa.pub" |
-
-## Outputs
-
-| Name | Beschreibung |
-|------|-------------|
-| `resource_group_name` | Name der erstellten Ressourcengruppe |
-| `public_ip_address` | Öffentliche IP-Adresse der VM |
-| `vm_name` | Name der erstellten VM |
-| `ssh_command` | SSH-Befehl für den Zugriff auf die VM |
-
-## Automatische Dokumentationsgenerierung
-
-Dieses Projekt verwendet [terraform-docs](https://github.com/terraform-docs/terraform-docs) zur automatischen Dokumentationsgenerierung:
-
+### 2. Entwicklungsumgebung
 ```bash
-cd terraform
-./generate-docs.sh
+# Pre-commit Hooks installieren
+pre-commit install
+
+# Terraform initialisieren (sobald Konfiguration vorhanden)
+terraform init
+terraform validate
+terraform fmt -recursive
 ```
 
-## Features und Roadmap
+### 3. AI-Tools aktivieren
+- **Claude Code**: Nutze `/validate`, `/terraform-validate`, `/plan`, `/deploy` Kommandos
+- **Cursor**: Terraform Best Practices werden automatisch angewendet
+- **GitHub Copilot**: Deutsche Kommunikation und Terraform-Workflows aktiv
 
-### Aktuelle Features
-- Grundlegende VM-Bereitstellung
-- SSH-Zugriff
-- Netzwerksicherheitsgruppen
+## 🛠️ Qualitätssicherung
 
-### Geplante Features
-- Modulare Architektur
-- Mehrere Umgebungen (dev, test, prod)
-- Verbesserte Sicherheit
-- Automatisierte Tests
-- CI/CD-Integration mit GitLab
+### Automatische Validierung
+Das Template enthält umfassende Pre-Commit Hooks:
 
-## Tagging-Strategie
+```yaml
+# Terraform-spezifische Hooks
+- terraform_fmt          # Code-Formatierung
+- terraform_validate     # Syntax-Validierung
+- terraform_docs         # Dokumentations-Generierung
+- tflint                # Linting mit Best Practice Rules
+- trivy                 # Security-Scanning
+- checkov               # Infrastructure Security Analysis
+```
 
-Standardisierte Tags für alle Ressourcen (wird in zukünftigen Versionen implementiert):
+### Entwicklungsworkflow
+1. **Code-Änderungen** in Feature-Branch
+2. **Automatische Validierung** durch Pre-Commit Hooks
+3. **Terraform Plan** zur Änderungsvalidierung
+4. **Merge Request** mit automatischer Dokumentation
+5. **Code Review** und GitLab CI/CD Pipeline
 
-- Environment: Umgebung (dev, test, prod)
-- Project: Projektname
-- CostCenter: Kostenstelle
-- Owner: Verantwortliches Team oder Person
-- ManagedBy: "Terraform"
-- CreationDate: Erstellungsdatum im Format YYYY-MM-DD
-- Purpose: Zweck der Ressource
+## 🔧 Voraussetzungen
 
-## Versionsverlauf
+### Entwicklungstools
+- **[Terraform](https://www.terraform.io/downloads.html)** (Version >= 1.0.0)
+- **[Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)** (Version >= 2.0)
+- **[GitLab CLI](https://gitlab.com/gitlab-org/cli)** (für MR-Verwaltung)
+- **[Pre-commit](https://pre-commit.com/)** (für Code-Qualität)
 
-| Version | Datum       | Änderungen |
-|---------|-------------|------------|
-| v1.0.0  | 09.05.2025  | Initiale Version |
+### Cloud-Anbieter Zugang
+- **Azure CLI** (für Azure-Bereitstellungen)
+- **Citrix DaaS** Mandant und API-Zugang
+- **VMware vCenter** (für lokale Bereitstellungen)
 
-Für detaillierte Informationen siehe [CHANGELOG.md](./CHANGELOG.md) und die [Versionsstrategie](./terraform/docs/VERSION_STRATEGY.md).
+### Optional: KI-Entwicklung
+- **[Claude Code](https://claude.ai/code)** - KI-unterstützte Entwicklung
+- **[Cursor IDE](https://cursor.sh/)** - KI-Code Editor
+- **GitHub Copilot** - Code-Vervollständigung
 
-## Autor
+## 📋 Template-Anpassung
 
-Terraform-Team
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-TERRAFORM.md updated successfully
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+### 1. Projektspezifische Konfiguration
+```bash
+# CLAUDE.md - AI-Tool Einstellungen anpassen
+# docs/promt/promt.md - Projektspezifikation aktualisieren
+# .pre-commit-config.yaml - Validierungsregeln anpassen
+```
+
+### 2. Umgebungs-Konfiguration
+```bash
+# Terraform-Variablen definieren (terraform.auto.tfvars)
+# Ansible-Inventare erstellen
+# GitLab CI/CD Variablen setzen
+```
+
+### 3. Cloud-Anbieter Einrichtung
+```bash
+# Azure: Service Principal konfigurieren
+# Lokal: Netzwerk-Zugang einrichten
+# Multi-Cloud: Anbieter-Anmeldedaten verwalten
+```
+
+## 🏷️ Tagging-Strategie
+
+Standardisierte Tags für alle Ressourcen:
+```hcl
+common_tags = {
+  Environment   = "dev|test|prod"
+  Project       = "citrix-daas-projekt"
+  CostCenter    = "IT-Infrastructure"
+  Owner         = "DevOps-Team"
+  ManagedBy     = "Terraform"
+  CreationDate  = "2025-06-22"
+  Purpose       = "citrix-daas-infrastructure"
+}
+```
+
+## 📖 Dokumentation
+
+- **[CLAUDE.md](./CLAUDE.md)** - Umfassende AI-Tool Konfiguration
+- **[TEMPLATE_TODO.md](./TEMPLATE_TODO.md)** - Projekt-Roadmap und Entwicklungsstand
+- **[docs/promt/promt.md](./docs/promt/promt.md)** - Detaillierte Projektspezifikation
+- **[CHANGELOG.md](./CHANGELOG.md)** - Versionshistorie und Änderungen
+
+## 🤝 Beitragen
+
+### Entwicklungsrichtlinien
+- **Deutsche Kommunikation** in allen Diskussionen
+- **Terraform Best Practices** befolgen
+- **Automatische Tests** vor jedem Commit
+- **Dokumentation** für alle Änderungen aktualisieren
+
+### Commit-Konventionen
+```
+feat: Neue Citrix DaaS Funktionalität
+fix: Terraform Konfigurationsfehler behoben
+docs: README.md Template-Anpassung aktualisiert
+style: Terraform Code-Formatierung
+refactor: Ansible Playbook Umstrukturierung
+test: Terraform Validierung erweitert
+```
+
+## 📞 Unterstützung
+
+Bei Fragen oder Problemen:
+1. **Issues** in diesem Repository erstellen
+2. **GitLab Merge Requests** für Verbesserungsvorschläge
+3. **KI-Tools** für Entwicklungsunterstützung nutzen
+
+---
+
+**Template Version**: v1.0.0  
+**Letztes Update**: 2025-06-22  
+**Entwickelt für**: Enterprise Citrix DaaS Infrastruktur
+
+*Dieses Template wurde mit umfassender AI-Tool Integration entwickelt und folgt modernen DevOps-Praktiken für Citrix DaaS Deployments.*

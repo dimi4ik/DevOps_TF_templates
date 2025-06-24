@@ -14,10 +14,8 @@ auto_attach:
 **WICHTIG: Bitte mit mir nur auf deutsch sprechen!!!!!**
 **Dokumentiere jede Änderung in der Änderungshistorie README.md!!!!!**
 
-## Allgemeine Entwicklungsregeln (aus dimas.mdc konsolidiert)
-- Deutsche Kommunikation in allen Besprechungen und Kommentaren
-- Vollständige Dokumentation aller Änderungen im README.md
-- Konsistente Arbeitsweise nach festgelegten Standards
+
+
 
 ## Versionsmanagement
 - Verwende semantische Versionierung für Git-Tags (z.B. v1.0.0)
