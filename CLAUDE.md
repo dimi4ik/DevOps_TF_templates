@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 **Primary Goal**: DevOps template repository for Citrix DaaS infrastructure projects with comprehensive AI tooling integration
-**Current Status**: Template preparation phase (Bestandsaufnahme) - no actual Terraform code yet, focus on scaffolding and documentation
+**Current Status**: Template preparation phase - no actual Terraform code yet, focus on scaffolding and documentation
 **Target Platforms**: Azure Cloud, On-Premises, Multi-Cloud Provider support
 **Core Technologies**: Terraform, Ansible, GitLab CI/CD, Citrix DaaS, VMware vSphere
 
@@ -16,15 +16,15 @@ This is a **template repository** providing scaffolding for DevOps projects, not
 ### Key Directories
 
 - `docs/` - Project documentation and specifications
-  - `architecture/` - Systemarchitektur und Design-Patterns  
-  - `deployment/` - Deployment-Anleitungen und Operations
-  - `templates/` - Template-Anpassung und Beispiele
+  - `architecture/` - System architecture and design patterns  
+  - `deployment/` - Deployment guides and operations
+  - `templates/` - Template customization and examples
   - `promt/` - XML-formatted project specification and workflow definitions
-- `.claude/` - 4 Terraform-spezifische Claude Code slash commands (validate, terraform-validate, plan, deploy)
-- `.cursor/` - Cursor IDE rules für Terraform Best Practices (konsolidiert)
-- `.github/copilot/` - GitHub Copilot instructions mit Git-Workflow Integration (konsolidiert)
+- `.claude/` - 19 Claude Code slash commands for comprehensive development workflow
+- `.cursor/` - Cursor IDE rules for Terraform best practices (consolidated)
+- `.github/copilot/` - GitHub Copilot instructions with Git workflow integration (consolidated)
 - `.gitlab/` - GitLab merge request templates
-- `archive/` - Archivierte AI-Tool-Sammlungen (908K)
+- `archive/` - Archived AI tool collections (908K)
 
 ### Development Commands
 
@@ -40,11 +40,12 @@ checkov                     # Infrastructure security analysis
 
 **AI-Assisted Development:**
 - Use `/validate`, `/terraform-validate`, `/plan`, `/deploy` slash commands
-- 4 Terraform-spezifische commands in `.claude/` directory (92 commands archiviert in `archive/ai-tools/`)
+- 19 comprehensive commands in `.claude/` directory
 - Workflow-driven development with planning phases
 
 ### Active Claude Slash Commands
 
+#### Core Infrastructure Commands
 1. **`/validate`** - Comprehensive multi-language validation workflow
    - Validates Terraform configuration
    - Runs pre-commit hooks
@@ -64,6 +65,37 @@ checkov                     # Infrastructure security analysis
    - Terraform plan/apply workflow
    - Validation before deployment
    - Post-deployment verification
+
+#### Task Management System
+5. **`/task-create`** - Create hierarchical plans, tasks, and subtasks
+6. **`/task-update`** - Update status, progress, and priorities  
+7. **`/task-list`** - List and filter tasks with hierarchical view
+8. **`/task-show`** - View detailed task information and context
+9. **`/task-log`** - Add timestamped progress updates
+10. **`/task-search`** - Search across all tasks and plans
+11. **`/task-archive`** - Archive completed work items
+
+#### Development & Operations
+12. **`/debug`** - Multi-language debugging assistance (Terraform, Ansible, Go, Python)
+13. **`/monitor`** - Infrastructure and application monitoring setup
+14. **`/harden`** - Security hardening analysis and recommendations
+15. **`/optimize`** - Performance optimization strategies
+16. **`/benchmark`** - Comprehensive performance analysis
+17. **`/containerize`** - Container and deployment optimization
+18. **`/dependencies`** - Dependency analysis and management
+
+#### Command Management Strategy
+**Active Commands**: Located in `.claude/commands/` - ready for immediate use
+**Archived Commands**: Located in `archive/ai-tools/claude-commands/` - available for future activation
+
+**Activating Additional Commands:**
+```bash
+# Activate command from archive
+mv archive/ai-tools/claude-commands/COMMAND_NAME.md .claude/commands/
+
+# Deactivate command (move back to archive)
+mv .claude/commands/COMMAND_NAME.md archive/ai-tools/claude-commands/
+```
 
 ## Key Configuration Files
 
@@ -105,44 +137,42 @@ checkov                     # Infrastructure security analysis
 - **Variable Naming**: Use descriptive, consistent naming (e.g., `two_adc` instead of `netscaler_count`)
 - **Configuration**: Prefer centralized configuration (`terraform.auto.tfvars`) over multiple files
 
-### Project-Specific Notes
+## Terraform Development Guidelines (Claude-specific)
 
-## Terraform Development Guidelines (Claude-spezifisch)
+### Terraform Best Practices for Claude Code
 
-### Terraform Best Practices für Claude Code
-
-**Code-Qualität und Struktur:**
-- Führe automatisch `terraform fmt -recursive` vor jeder Änderung aus
-- Nutze `terraform validate` für Syntax-Prüfung vor Commits
-- Strukturiere Terraform-Dateien nach diesem Schema:
+**Code Quality and Structure:**
+- Always run `terraform fmt -recursive` before any changes
+- Use `terraform validate` for syntax checking before commits
+- Structure Terraform files according to this pattern:
   ```
-  ├── main.tf          # Hauptressourcen und Modulaufrufe
-  ├── variables.tf     # Eingabevariablen mit Validierungen
-  ├── outputs.tf       # Strukturierte Ausgaben
-  ├── providers.tf     # Providerkonfiguration
-  ├── versions.tf      # Provider-Versionseinschränkungen
-  └── locals.tf        # Lokale Variablen und Berechnungen
+  ├── main.tf          # Main resources and module calls
+  ├── variables.tf     # Input variables with validations
+  ├── outputs.tf       # Structured outputs
+  ├── providers.tf     # Provider configuration
+  ├── versions.tf      # Provider version constraints
+  └── locals.tf        # Local variables and calculations
   ```
 
-**Sicherheits- und Qualitätspraxis:**
-- Nutze Validierungsregeln für kritische Variablen mit `precondition`-Blöcken
-- Markiere sensible Variablen mit `sensitive = true`
-- Verwende Remote-Backends (GitLab) für Terraform State Management
-- Integriere Checkov und TFLint für Security-Scanning (via `/validate` command)
-- Keine hartcodierten Secrets - verwende HashiCorp Vault oder Azure Key Vault
+**Security and Quality Practices:**
+- Use validation rules for critical variables with `precondition` blocks
+- Mark sensitive variables with `sensitive = true`
+- Use remote backends (GitLab) for Terraform State Management
+- Integrate Checkov and TFLint for security scanning (via `/validate` command)
+- No hardcoded secrets - use HashiCorp Vault or Azure Key Vault
 
-**Namenskonventionen:**
-- Ressourcennamen: `<projekt>-<umgebung>-<ressourcentyp>-<zweck>` (snake_case)
-- Variablen und Outputs: beschreibend und konsistent
-- Beispiel: `citrix_daas_dev_vm_controller`, `two_adc` (nicht `netscaler_count`)
+**Naming Conventions:**
+- Resource names: `<project>-<environment>-<resource-type>-<purpose>` (snake_case)
+- Variables and outputs: descriptive and consistent
+- Example: `citrix_daas_dev_vm_controller`, `two_adc` (not `netscaler_count`)
 
-**Module-Entwicklung:**
-- DRY-Prinzip konsequent anwenden
-- Module mit klaren Input/Output-Variablen strukturieren
-- `for_each` bevorzugen gegenüber `count` für bessere Stabilität
-- Modulausgaben für bessere Modularität definieren
+**Module Development:**
+- Apply DRY principle consistently
+- Structure modules with clear input/output variables
+- Prefer `for_each` over `count` for better stability
+- Define module outputs for better modularity
 
-**Tagging-Strategie (Pflicht für alle Ressourcen):**
+**Tagging Strategy (Required for all resources):**
 ```hcl
 common_tags = {
   Environment   = var.environment
@@ -155,76 +185,13 @@ common_tags = {
 }
 ```
 
-**Claude-spezifische Workflows:**
-- Verwende `/terraform-validate` für umfassende Terraform-Validierung
-- Nutze `/plan` für strukturierte Implementierungsplanung mit TodoWrite
-- MultiEdit für gleichzeitige Änderungen mehrerer `.tf` Dateien
-- WebFetch für Terraform Provider-Dokumentation während der Entwicklung
+**Claude-specific Workflows:**
+- Use `/terraform-validate` for comprehensive Terraform validation
+- Use `/plan` for structured implementation planning with TodoWrite
+- MultiEdit for simultaneous changes to multiple `.tf` files
+- WebFetch for Terraform provider documentation during development
 
-**Provider-Versionierung:**
-- Flexible Versionierung mit `~>` für Patch-Updates
-- Konkrete Versionen für stabile Production-Deployments
-- Beispiel: `version = "~> 3.0"` für Entwicklung, `version = "3.74.0"` für Produktion
-
-## Archivierte AI-Tool Instructions (Integration Reference)
-
-### VMware/Citrix-spezifische Instructions (aus Archiv)
-Aus `archive/ai-tools/github-copilot/copilot-instructions_VMW.md`:
-- **VMware vSphere Integration**: Expertise für Citrix-Ressourcen in VMware-Umgebungen
-- **Hypervisor-Connections**: vSphere-Hypervisor zu Machine Catalogs Beziehungen
-- **VDI-Skalierung**: Terraform-basierte VDI-Umgebungen mit Citrix
-
-### Azure Shared Image Gallery Instructions (aus Archiv)  
-Aus `archive/ai-tools/github-copilot/SIG_copilot-instructions.md`:
-- **Azure SIG Expertise**: Zentrale Verwaltung von VM-Images für Cloud-Deployments
-- **Image Versionierung**: Repository für verwaltete Images über Azure-Regionen
-- **Namenskonventionen**: Strukturierte Naming Patterns für Enterprise-Umgebungen
-
-### Template-Integration Guidelines
-Diese archivierten Instructions wurden bewusst **nicht** in die aktive CLAUDE.md integriert, da:
-1. **Template-Fokus**: Repository ist Template, nicht produktive VMware/Azure Implementierung
-2. **Spezifität**: VMware/Azure-spezifische Details gehören in projektspezifische Anpassungen
-3. **Flexibilität**: Template soll für verschiedene Cloud-Provider und Szenarien adaptierbar bleiben
-
-### Wiederverwendung für Projekte
-Für konkrete Citrix DaaS Projekte können relevante Instructions aus `archive/ai-tools/` in projektspezifische CLAUDE.md kopiert werden:
-```bash
-# Beispiel für VMware-basiertes Projekt
-cp archive/ai-tools/github-copilot/copilot-instructions_VMW.md docs/templates/vmware-integration-guide.md
-
-# Beispiel für Azure-basiertes Projekt  
-cp archive/ai-tools/github-copilot/SIG_copilot-instructions.md docs/templates/azure-image-gallery-guide.md
-```
-
-### Additional Active Claude Commands
-
-#### Task Management System (moved from archive)
-- `/task-create` - Create hierarchical plans, tasks, and subtasks
-- `/task-update` - Update status, progress, and priorities  
-- `/task-list` - List and filter tasks with hierarchical view
-- `/task-show` - View detailed task information and context
-- `/task-log` - Add timestamped progress updates
-- `/task-search` - Search across all tasks and plans
-- `/task-archive` - Archive completed work items
-
-#### Development & Operations (moved from archive)
-- `/debug` - Multi-language debugging assistance (Terraform, Ansible, Go, Python)
-- `/monitor` - Infrastructure and application monitoring setup
-- `/harden` - Security hardening analysis and recommendations
-- `/optimize` - Performance optimization strategies
-- `/benchmark` - Comprehensive performance analysis
-- `/containerize` - Container and deployment optimization
-- `/dependencies` - Dependency analysis and management
-
-#### Command Management Strategy
-**Active Commands**: Located in `.claude/commands/` - ready for immediate use
-**Archived Commands**: Located in `archive/ai-tools/claude-commands/` - available for future activation
-
-**Activating Additional Commands:**
-```bash
-# Command aus Archiv aktivieren
-mv archive/ai-tools/claude-commands/COMMAND_NAME.md .claude/commands/
-
-# Command deaktivieren (zurück ins Archiv)
-mv .claude/commands/COMMAND_NAME.md archive/ai-tools/claude-commands/
-```
+**Provider Versioning:**
+- Flexible versioning with `~>` for patch updates
+- Concrete versions for stable production deployments
+- Example: `version = "~> 3.0"` for development, `version = "3.74.0"` for production
