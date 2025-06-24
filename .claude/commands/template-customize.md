@@ -159,7 +159,43 @@ Geführte Template-Anpassung für neue Citrix DaaS Projekte:
 - Environment-spezifische Anpassungen
 - Multi-Cloud Migration
 
-**Integration mit Task-Management:**
-- `/task-create` für Anpassungs-Tracking
+## Integration mit Task-Management:
+
+**Template-Anpassung Projekt erstellen:**
+```bash
+# Neues Projekt für Template-Anpassung
+/task-create project "citrix-project-customization" --description="Template-Anpassung für neues Citrix DaaS Projekt"
+
+# Anpassungs-Tasks erstellen
+/task-create subtask "citrix-project-customization" "repository-setup-und-konfiguration" --priority=high
+/task-create subtask "citrix-project-customization" "provider-authentifizierung-einrichten" --priority=high  
+/task-create subtask "citrix-project-customization" "environment-konfiguration-anpassen" --priority=medium
+/task-create subtask "citrix-project-customization" "citrix-daas-spezifische-einstellungen" --priority=medium
+/task-create subtask "citrix-project-customization" "validierung-und-erste-tests" --priority=low
+```
+
+**Workflow mit Task-Tracking:**
+```bash
+# 1. Task-Status verfolgen
+/task-list --project=citrix-project-customization
+
+# 2. Task als in-progress markieren
+/task-update "citrix-project-customization/repository-setup-und-konfiguration" --status=in_progress
+
+# 3. Anpassung durchführen mit template-customize
+
+# 4. Validierung ausführen
+/template-validate
+
+# 5. Task als completed markieren
+/task-update "citrix-project-customization/repository-setup-und-konfiguration" --status=completed
+
+# 6. Zum nächsten Task wechseln
+/task-update "citrix-project-customization/provider-authentifizierung-einrichten" --status=in_progress
+```
+
+**Integration mit anderen Commands:**
 - `/template-validate` zur Überprüfung
 - `/multi-cloud-deploy` für Deployment
+- `/citrix-daas-config` für DaaS-spezifische Hilfe
+- `/template-optimize` für Performance-Tuning

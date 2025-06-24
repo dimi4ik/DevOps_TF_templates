@@ -382,9 +382,60 @@ Template Performance-Optimierung für Citrix DaaS Infrastruktur:
 /benchmark --after-optimization --compare
 ```
 
+## Integration mit Task-Management:
+
+**Performance-Optimierung Projekt:**
+```bash
+# Optimierungs-Projekt erstellen
+/task-create project "template-performance-optimization" --description="Citrix DaaS Template Performance-Optimierung"
+
+# Optimierungs-Phasen als Tasks
+/task-create subtask "template-performance-optimization" "infrastructure-performance-analyse" --priority=high
+/task-create subtask "template-performance-optimization" "resource-optimierung-implementierung" --priority=high
+/task-create subtask "template-performance-optimization" "auto-scaling-konfiguration" --priority=medium
+/task-create subtask "template-performance-optimization" "cost-performance-optimierung" --priority=medium
+/task-create subtask "template-performance-optimization" "performance-monitoring-setup" --priority=low
+```
+
+**Optimierungs-Workflow mit Task-Tracking:**
+```bash
+# Performance-Analyse starten
+/task-update "template-performance-optimization/infrastructure-performance-analyse" --status=in_progress
+/template-optimize --analyze --environment=dev
+/task-log "template-performance-optimization/infrastructure-performance-analyse" "Performance-Baseline ermittelt"
+/task-update "template-performance-optimization/infrastructure-performance-analyse" --status=completed
+
+# Optimierungen implementieren
+/task-update "template-performance-optimization/resource-optimierung-implementierung" --status=in_progress
+/template-optimize --apply-recommendations
+/task-update "template-performance-optimization/resource-optimierung-implementierung" --status=completed
+
+# Performance-Vergleich
+/benchmark --after-optimization --compare
+/task-log "template-performance-optimization" "Performance-Verbesserung: [X%] CPU, [Y%] Memory, [Z%] Cost"
+
+# Progress verfolgen
+/task-list --project=template-performance-optimization
+```
+
+**Kontinuierliche Performance-Optimierung:**
+```bash
+# Regelmäßige Performance-Reviews
+/task-create project "continuous-performance-optimization" --description="Kontinuierliche Performance-Überwachung"
+/task-create subtask "continuous-performance-optimization" "monthly-performance-review" --priority=medium
+
+# Monatlicher Performance-Check
+/task-update "continuous-performance-optimization/monthly-performance-review" --status=in_progress
+/template-optimize --cost-analysis --recommendations
+/template-optimize --performance-report
+/task-update "continuous-performance-optimization/monthly-performance-review" --status=completed
+```
+
 ## Integration mit anderen Commands:
 
 - `/template-validate` - Performance-Konfiguration validieren
 - `/multi-cloud-deploy` - Optimierte Deployments
 - `/citrix-daas-config` - DaaS-Performance Tuning
 - `/monitor` - Performance-Monitoring Setup
+- `/task-create` - Performance-Optimierung projektbasiert verwalten
+- `/benchmark` - Performance-Messungen mit Task-Dokumentation

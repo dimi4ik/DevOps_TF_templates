@@ -109,4 +109,55 @@ Branch: [current-branch]
 
 Report speichern unter: `/tmp/template-validation-report-[timestamp].md`
 
+## Integration mit Task-Management:
+
+**Template-Validierung in Projekten:**
+```bash
+# Validierung als Task-Schritt integrieren
+/task-create subtask "[projekt-name]" "template-struktur-validierung" --priority=high
+/task-update "[projekt-name]/template-struktur-validierung" --status=in_progress
+
+# Template-Validierung ausführen
+/template-validate
+
+# Ergebnis dokumentieren
+/task-log "[projekt-name]/template-struktur-validierung" "Template-Validierung erfolgreich - alle Checks bestanden"
+/task-update "[projekt-name]/template-struktur-validierung" --status=completed
+```
+
+**Pre-Deployment Validierung Workflow:**
+```bash
+# Vor jedem Deployment validieren
+/task-update "[deployment-projekt]/pre-deployment-validation" --status=in_progress
+/template-validate  # Comprehensive validation
+/terraform-validate  # Additional Terraform checks  
+/task-update "[deployment-projekt]/pre-deployment-validation" --status=completed
+
+# Erst nach erfolgreicher Validierung deployen
+/multi-cloud-deploy --env=[environment]
+```
+
+**Kontinuierliche Validierung Setup:**
+```bash
+# Validierungs-Task für regelmäßige Überprüfung
+/task-create project "template-quality-assurance" --description="Kontinuierliche Template-Qualitätssicherung"
+/task-create subtask "template-quality-assurance" "weekly-template-validation" --priority=medium
+
+# Wöchentliche Validierung
+/task-update "template-quality-assurance/weekly-template-validation" --status=in_progress
+/template-validate
+/task-log "template-quality-assurance/weekly-template-validation" "Wöchentliche Validierung durchgeführt - $(date)"
+/task-update "template-quality-assurance/weekly-template-validation" --status=completed
+```
+
+**Integration in CI/CD Pipeline:**
+```bash
+# Template-Validierung vor Git-Commits
+/template-validate  # Als Pre-commit Hook
+/task-log "[current-projekt]" "Template-Validierung vor Commit erfolgreich"
+
+# Als GitLab CI/CD Job  
+/template-validate  # In .gitlab-ci.yml Pipeline
+```
+
 **Verwendung:** Vor Template-Anpassungen, Commits und Deployments ausführen.

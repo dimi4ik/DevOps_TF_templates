@@ -202,12 +202,64 @@ Multi-Cloud Terraform Deployment für Citrix DaaS Infrastruktur:
 /multi-cloud-deploy --rollback --to-state=[state-backup-file]
 ```
 
+## Integration mit Task-Management:
+
+**Multi-Cloud Deployment Projekt erstellen:**
+```bash
+# Deployment-Projekt anlegen
+/task-create project "multi-cloud-deployment" --description="Multi-Cloud Citrix DaaS Infrastructure Deployment"
+
+# Deployment-Phasen als Tasks
+/task-create subtask "multi-cloud-deployment" "deployment-vorbereitung-validierung" --priority=high
+/task-create subtask "multi-cloud-deployment" "azure-infrastructure-deployment" --priority=high
+/task-create subtask "multi-cloud-deployment" "on-premises-integration-setup" --priority=medium
+/task-create subtask "multi-cloud-deployment" "citrix-daas-konfiguration-deployment" --priority=medium
+/task-create subtask "multi-cloud-deployment" "integration-testing-validation" --priority=low
+```
+
+**Gestuftes Deployment mit Task-Tracking:**
+```bash
+# Phase 1: Vorbereitung
+/task-update "multi-cloud-deployment/deployment-vorbereitung-validierung" --status=in_progress
+/template-validate  # Pre-deployment validation
+/task-update "multi-cloud-deployment/deployment-vorbereitung-validierung" --status=completed
+
+# Phase 2: Azure Deployment
+/task-update "multi-cloud-deployment/azure-infrastructure-deployment" --status=in_progress
+/multi-cloud-deploy --env=dev --provider=azure --auto-approve=false
+/task-log "multi-cloud-deployment/azure-infrastructure-deployment" "Azure Infrastructure erfolgreich deployed"
+/task-update "multi-cloud-deployment/azure-infrastructure-deployment" --status=completed
+
+# Phase 3: Citrix DaaS Setup
+/task-update "multi-cloud-deployment/citrix-daas-konfiguration-deployment" --status=in_progress  
+/citrix-daas-config  # DaaS-specific configuration
+/task-update "multi-cloud-deployment/citrix-daas-konfiguration-deployment" --status=completed
+
+# Progress tracking
+/task-list --project=multi-cloud-deployment
+```
+
+**Rollback-Prozedur mit Task-Management:**
+```bash
+# Rollback-Task erstellen falls erforderlich
+/task-create subtask "multi-cloud-deployment" "rollback-to-previous-state" --priority=high
+/task-update "multi-cloud-deployment/rollback-to-previous-state" --status=in_progress
+
+# Rollback ausführen
+/multi-cloud-deploy --rollback --to-state=[backup-file]
+
+# Rollback dokumentieren
+/task-log "multi-cloud-deployment/rollback-to-previous-state" "Rollback erfolgreich zu State [backup-timestamp]"
+/task-update "multi-cloud-deployment/rollback-to-previous-state" --status=completed
+```
+
 ## Integration mit anderen Commands:
 
 - `/template-validate` vor jedem Deployment ausführen
 - `/citrix-daas-config` für DaaS-spezifische Konfiguration
 - `/template-optimize` für Performance-Optimierung nach Deployment
 - `/task-create` für Deployment-Tracking
+- `/task-list` für Deployment-Progress Monitoring
 
 ## Troubleshooting:
 

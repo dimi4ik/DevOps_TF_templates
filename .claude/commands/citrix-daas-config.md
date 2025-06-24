@@ -333,12 +333,64 @@ Citrix DaaS Konfigurationshilfe für Multi-Cloud Deployments:
 - On-Premises für Baseline Workload
 - Smart Load Balancing zwischen Clouds
 
+## Integration mit Task-Management:
+
+**Citrix DaaS Konfiguration Projekt:**
+```bash
+# DaaS-Konfigurationsprojekt erstellen
+/task-create project "citrix-daas-configuration" --description="Citrix DaaS Setup und Konfiguration"
+
+# DaaS-Setup Tasks
+/task-create subtask "citrix-daas-configuration" "citrix-cloud-setup-api-zugang" --priority=high
+/task-create subtask "citrix-daas-configuration" "resource-locations-konfiguration" --priority=high
+/task-create subtask "citrix-daas-configuration" "machine-catalogs-setup" --priority=medium
+/task-create subtask "citrix-daas-configuration" "delivery-groups-konfiguration" --priority=medium
+/task-create subtask "citrix-daas-configuration" "policies-und-monitoring-setup" --priority=low
+```
+
+**DaaS-Konfiguration Workflow:**
+```bash
+# Citrix Cloud Setup starten
+/task-update "citrix-daas-configuration/citrix-cloud-setup-api-zugang" --status=in_progress
+/citrix-daas-config  # API-Setup und Cloud Connector
+/task-log "citrix-daas-configuration/citrix-cloud-setup-api-zugang" "Citrix Cloud API erfolgreich konfiguriert"
+/task-update "citrix-daas-configuration/citrix-cloud-setup-api-zugang" --status=completed
+
+# Resource Locations konfigurieren
+/task-update "citrix-daas-configuration/resource-locations-konfiguration" --status=in_progress
+/citrix-daas-config  # Azure + On-Premises Resource Locations
+/task-update "citrix-daas-configuration/resource-locations-konfiguration" --status=completed
+
+# Machine Catalogs erstellen
+/task-update "citrix-daas-configuration/machine-catalogs-setup" --status=in_progress
+/citrix-daas-config  # Machine Catalog Konfiguration
+/template-validate   # Konfiguration validieren
+/task-update "citrix-daas-configuration/machine-catalogs-setup" --status=completed
+
+# Progress verfolgen
+/task-list --project=citrix-daas-configuration
+```
+
+**Multi-Cloud DaaS Integration:**
+```bash
+# Cross-Cloud DaaS Setup
+/task-create subtask "citrix-daas-configuration" "hybrid-cloud-integration" --priority=medium
+/task-update "citrix-daas-configuration/hybrid-cloud-integration" --status=in_progress
+
+# Azure + On-Premises Integration
+/citrix-daas-config  # Hybrid setup
+/multi-cloud-deploy --citrix-daas-integration
+/task-update "citrix-daas-configuration/hybrid-cloud-integration" --status=completed
+```
+
 ## Integration Commands:
 
 - `/template-validate` für DaaS-Konfiguration überprüfen
 - `/multi-cloud-deploy` für DaaS-Infrastruktur deployment
 - `/template-optimize` für Performance-Tuning
 - `/monitor` für DaaS-Monitoring Setup
+- `/task-create` für DaaS-Setup projektbasiert verwalten
+- `/task-log` für Konfigurationsdokumentation
 
 ## Troubleshooting:
 
