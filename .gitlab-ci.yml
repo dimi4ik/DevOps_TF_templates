@@ -1,0 +1,75 @@
+image: harbor.abraxas-tools.ch/mvd/terraform@sha256:8753007d6af5bcc4bb41f2f13341354c0718e383f082b58f8beacf7fcb79e449
+
+variables:
+  TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_PROJECT_NAME}
+  TF_VAR_cluster_name: ${CI_PROJECT_NAME}
+  TF_ROOT: ${CI_PROJECT_DIR}/terraform
+  ANSIBLE_ROOT: ${CI_PROJECT_DIR}/ansible
+  #CI_DEBUG_TRACE: ${CI_DEBUG_TRACE} # Setze die Umgebungsvariable CI_DEBUG_TRACE auf true, um die Debug-Ausgabe zu aktivieren.
+  TF_LOG: ${TF_DEBUG}  #Durch das Setzen der TF_LOG-Umgebungsvariable auf DEBUG wird Terraform angewiesen, detaillierte Debug-Ausgaben zu generieren
+  EXTENDED_MODE: active
+  DESTROY_MODE:
+    description: "DESTROY_MODE ist aktiv"
+    value: "none"
+    options:
+      - "none"
+      - "active"
+  # TF_VAR_image_snapshot_m917:
+  #   description:
+  #   |
+  #     **Windows 2022 APC917050001_Server2022_20250522 Image Version**
+  #     Bitte wählen Sie die Version des Windows 2022 Images aus.
+  #   value: "APC917050001_Server2022_20250523-1530"
+  #   options:
+  #     - "APC917050001_Server2022_20250522-1453"
+  #     - "APC917050001_Server2022_20250523-0700"
+
+
+
+include:
+  - project: "plattformen/aap/templates/ci-cd-template"
+    file: "/ci/terraform/default.yml"
+    ref: v1.15.1
+
+validate:
+  extends: [.validate-tf]
+  script:
+    - echo "This job is disabled"
+  when: manual #never
+
+deploy:
+  extends: [.deploy-tf]
+  script:
+    - echo -e "credentials \"gitlab.abraxas-tools.ch\" {\n  token = \"${GITLAB_TERRAFORM_REGISTRY_TOKEN}\"\n}"
+      > ~/.terraformrc
+    - gitlab-terraform apply
+  environment:
+      name: sta-mvd
+
+build:
+  extends: [.build-tf]
+  script:
+  - echo -e "credentials \"gitlab.abraxas-tools.ch\" {\n  token = \"${GITLAB_TERRAFORM_REGISTRY_TOKEN}\"\n}"
+    > ~/.terraformrc
+  - gitlab-terraform init -upgrade
+  - gitlab-terraform plan ${REPLACE_CMD}
+  - gitlab-terraform plan-json ${REPLACE_CMD}
+  resource_group: "${TF_STATE_NAME}"
+  rules:
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DESTROY_MODE == "active"
+    when: manual
+  - when: always
+  artifacts:
+    paths:
+    - "${TF_ROOT}/plan.cache"
+    reports:
+      terraform: "${TF_ROOT}/plan.json"
+
+destroy:
+  stage: destroy
+  allow_failure: true
+  resource_group: "${TF_STATE_NAME}"
+  script:
+    - gitlab-terraform destroy
+  when: always
+  needs: ["init"]
