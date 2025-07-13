@@ -40,10 +40,10 @@ checkov                     # Infrastructure security analysis
 
 **AI-Assisted Development:**
 - Use `/validate`, `/terraform-validate`, `/plan`, `/deploy` slash commands
-- 19 comprehensive commands in `.claude/` directory
+- 22 comprehensive commands in `.claude/` directory (updated from 19)
 - Workflow-driven development with planning phases
 
-### Active Claude Slash Commands
+### Active Claude Slash Commands (22 Commands)
 
 #### Core Infrastructure Commands
 1. **`/validate`** - Comprehensive multi-language validation workflow
@@ -83,6 +83,12 @@ checkov                     # Infrastructure security analysis
 16. **`/benchmark`** - Comprehensive performance analysis
 17. **`/containerize`** - Container and deployment optimization
 18. **`/dependencies`** - Dependency analysis and management
+
+#### Terraform-Specific Commands
+19. **`/tf-apply`** - Terraform apply workflow with validation
+20. **`/tf-destroy`** - Safe Terraform destroy with confirmations
+21. **`/tf-flow`** - Complete Terraform development workflow
+22. **`/tf-pre-commit`** - Run Terraform pre-commit hooks
 
 #### Command Management Strategy
 **Active Commands**: Located in `.claude/commands/` - ready for immediate use

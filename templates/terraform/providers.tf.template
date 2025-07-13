@@ -1,0 +1,337 @@
+# providers.tf - Provider-Konfiguration
+# Template für DevOps Terraform Projekte
+
+# ================================================
+# AZURE PROVIDER KONFIGURATION
+# ================================================
+
+provider "azurerm" {
+  # Provider nur wenn Azure als Cloud-Provider gewählt wurde
+  count = var.cloud_provider == "azure" || var.cloud_provider == "multi" ? 1 : 0
+  
+  features {
+    # Key Vault Features
+    key_vault {
+      purge_soft_delete_on_destroy          = var.environment != "prod"
+      purge_soft_deleted_keys_on_destroy    = var.environment != "prod"
+      purge_soft_deleted_secrets_on_destroy = var.environment != "prod"
+      recover_soft_deleted_key_vaults       = true
+    }
+    
+    # Virtual Machine Features
+    virtual_machine {
+      delete_os_disk_on_deletion     = var.environment != "prod"
+      graceful_shutdown              = true
+      skip_shutdown_and_force_delete = false
+    }
+    
+    # Resource Group Features
+    resource_group {
+      prevent_deletion_if_contains_resources = var.environment == "prod"
+    }
+    
+    # Storage Account Features
+    storage {
+      prevent_nested_items_deletion = var.environment == "prod"
+    }
+    
+    # Network Features
+    network {
+      relaxed_locking = var.environment != "prod"
+    }
+  }
+  
+  # Optional: Spezifische Subscription
+  # subscription_id = var.azure_subscription_id
+  
+  # Optional: Service Principal Authentication
+  # client_id       = var.azure_client_id
+  # client_secret   = var.azure_client_secret
+  # tenant_id       = var.azure_tenant_id
+}
+
+# ================================================
+# VMWARE VSPHERE PROVIDER KONFIGURATION
+# ================================================
+
+provider "vsphere" {
+  # Provider nur wenn VMware als Cloud-Provider gewählt wurde
+  count = var.cloud_provider == "vmware" || var.cloud_provider == "multi" ? 1 : 0
+  
+  # vSphere Connection Details
+  user                 = var.vsphere_user
+  password             = var.vsphere_password
+  vsphere_server       = var.vsphere_server
+  allow_unverified_ssl = var.vsphere_allow_unverified_ssl
+  
+  # Connection Timeouts
+  api_timeout    = 10  # Minuten
+  rest_timeout   = 10  # Minuten
+  
+  # Persistence für bessere Performance
+  persist_session = true
+  
+  # Logging (nur für Development)
+  vim_keep_alive = var.environment != "prod" ? 30 : 10
+  
+  # Session Management
+  vim_session_path = var.environment != "prod" ? "/tmp/govmomi-session" : null
+}
+
+# ================================================
+# RANDOM PROVIDER KONFIGURATION
+# ================================================
+
+provider "random" {
+  # Random Provider für Passwort-Generierung und eindeutige IDs
+  # Immer verfügbar für alle Cloud-Provider
+}
+
+# ================================================
+# HASHICORP VAULT PROVIDER (OPTIONAL)
+# ================================================
+
+provider "vault" {
+  # Vault Provider für Secret Management
+  count = var.enable_vault_integration ? 1 : 0
+  
+  address = var.vault_address
+  token   = var.vault_token
+  
+  # TLS Configuration
+  skip_tls_verify = var.vault_skip_tls_verify
+  ca_cert_file    = var.vault_ca_cert_file
+  
+  # Namespace für Vault Enterprise
+  namespace = var.vault_namespace
+  
+  # Auth Method Configuration
+  auth_login {
+    path = var.vault_auth_path
+    
+    parameters = {
+      role_id   = var.vault_role_id
+      secret_id = var.vault_secret_id
+    }
+  }
+}
+
+# ================================================
+# GITLAB PROVIDER (FÜR CI/CD INTEGRATION)
+# ================================================
+
+provider "gitlab" {
+  # GitLab Provider für Repository und CI/CD Management
+  count = var.enable_gitlab_integration ? 1 : 0
+  
+  token    = var.gitlab_token
+  base_url = var.gitlab_base_url
+  
+  # Rate Limiting
+  early_auth_check = true
+  
+  # API Version
+  api_version = "v4"
+}
+
+# ================================================
+# HTTP PROVIDER (FÜR EXTERNE API CALLS)
+# ================================================
+
+provider "http" {
+  # HTTP Provider für externe API-Aufrufe
+  # Z.B. für Citrix Cloud API oder Azure REST API
+}
+
+# ================================================
+# TEMPLATE PROVIDER (FÜR CLOUD-INIT/USERDATA)
+# ================================================
+
+provider "template" {
+  # Template Provider für Cloud-Init Scripts und User Data
+  # Deprecated in neueren Terraform-Versionen, verwende templatefile() function
+}
+
+# ================================================
+# TLS PROVIDER (FÜR ZERTIFIKAT-MANAGEMENT)
+# ================================================
+
+provider "tls" {
+  # TLS Provider für Zertifikat-Generierung und -Management
+  # Nützlich für interne CA oder Self-Signed Certificates
+}
+
+# ================================================
+# LOCAL PROVIDER (FÜR LOKALE RESSOURCEN)
+# ================================================
+
+provider "local" {
+  # Local Provider für lokale Dateien und Ausführungen
+  # Nützlich für Konfigurationsdateien und Post-Deployment Scripts
+}
+
+# ================================================
+# EXTERNE PROVIDER-KONFIGURATION
+# ================================================
+
+# Citrix Cloud Provider (Community)
+# provider "citrixcloud" {
+#   count = var.enable_citrix_cloud ? 1 : 0
+#   
+#   customer_id   = var.citrix_customer_id
+#   client_id     = var.citrix_client_id
+#   client_secret = var.citrix_client_secret
+#   region        = var.citrix_region
+# }
+
+# Active Directory Provider (Community)
+# provider "ad" {
+#   count = var.domain_join != "" ? 1 : 0
+#   
+#   winrm_hostname = var.ad_server
+#   winrm_username = var.ad_username
+#   winrm_password = var.ad_password
+#   winrm_port     = 5986
+#   winrm_https    = true
+#   winrm_insecure = var.environment != "prod"
+# }
+
+# ================================================
+# PROVIDER-SPEZIFISCHE VARIABLEN
+# ================================================
+
+# Diese Variablen sollten in variables.tf definiert werden:
+
+# Azure Provider Variables
+variable "azure_subscription_id" {
+  description = "Azure Subscription ID"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "azure_client_id" {
+  description = "Azure Service Principal Client ID"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "azure_client_secret" {
+  description = "Azure Service Principal Client Secret"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "azure_tenant_id" {
+  description = "Azure Tenant ID"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+# VMware Provider Variables
+variable "vsphere_user" {
+  description = "vSphere Username"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "vsphere_password" {
+  description = "vSphere Password"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "vsphere_server" {
+  description = "vSphere Server FQDN oder IP"
+  type        = string
+  default     = ""
+}
+
+variable "vsphere_allow_unverified_ssl" {
+  description = "Erlaube unverified SSL certificates"
+  type        = bool
+  default     = false
+}
+
+# Vault Provider Variables
+variable "enable_vault_integration" {
+  description = "Aktiviert HashiCorp Vault Integration"
+  type        = bool
+  default     = false
+}
+
+variable "vault_address" {
+  description = "Vault Server Address"
+  type        = string
+  default     = ""
+}
+
+variable "vault_token" {
+  description = "Vault Access Token"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "vault_skip_tls_verify" {
+  description = "Skip TLS verification für Vault"
+  type        = bool
+  default     = false
+}
+
+variable "vault_ca_cert_file" {
+  description = "Path to Vault CA Certificate"
+  type        = string
+  default     = ""
+}
+
+variable "vault_namespace" {
+  description = "Vault Namespace (Enterprise)"
+  type        = string
+  default     = ""
+}
+
+variable "vault_auth_path" {
+  description = "Vault Auth Method Path"
+  type        = string
+  default     = "auth/approle/login"
+}
+
+variable "vault_role_id" {
+  description = "Vault AppRole Role ID"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "vault_secret_id" {
+  description = "Vault AppRole Secret ID"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+# GitLab Provider Variables
+variable "enable_gitlab_integration" {
+  description = "Aktiviert GitLab Provider Integration"
+  type        = bool
+  default     = false
+}
+
+variable "gitlab_token" {
+  description = "GitLab Personal Access Token"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "gitlab_base_url" {
+  description = "GitLab Base URL"
+  type        = string
+  default     = "https://gitlab.com/api/v4/"
+}

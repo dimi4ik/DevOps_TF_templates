@@ -1,0 +1,131 @@
+# main.tf - Hauptkonfiguration
+# Template für DevOps Terraform Projekte
+
+terraform {
+  required_version = ">= 1.0"
+  
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.0"
+    }
+    vsphere = {
+      source  = "hashicorp/vsphere"
+      version = "~> 2.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.0"
+    }
+  }
+
+  backend "http" {
+    # GitLab CI/CD Backend Configuration
+    # Wird durch terraform init mit backend-config gesetzt
+  }
+}
+
+# Lokale Variablen für wiederverwendbare Werte
+locals {
+  # Timestamp für eindeutige Ressourcen-Namen
+  timestamp = formatdate("YYYYMMDDHHmm", timestamp())
+  
+  # Standardisierte Tagging-Strategie
+  common_tags = {
+    Environment   = var.environment
+    Project       = var.project_name
+    CostCenter    = var.cost_center
+    Owner         = var.owner
+    ManagedBy     = "Terraform"
+    CreationDate  = formatdate("YYYY-MM-DD", timestamp())
+    Purpose       = var.resource_purpose
+    Repository    = var.repository_url
+  }
+
+  # Naming Convention: project-environment-resource-purpose
+  name_prefix = "${var.project_name}-${var.environment}"
+}
+
+# Resource Group (Azure) oder Datacenter-spezifische Konfiguration
+resource "azurerm_resource_group" "main" {
+  count    = var.cloud_provider == "azure" ? 1 : 0
+  name     = "${local.name_prefix}-rg"
+  location = var.azure_location
+  tags     = local.common_tags
+}
+
+# Beispiel: Netzwerk-Modul
+module "networking" {
+  source = "./modules/networking"
+  
+  # Standard-Parameter
+  name_prefix     = local.name_prefix
+  resource_group  = var.cloud_provider == "azure" ? azurerm_resource_group.main[0].name : null
+  location        = var.azure_location
+  environment     = var.environment
+  
+  # Netzwerk-spezifische Parameter
+  vnet_cidr       = var.vnet_cidr
+  subnet_cidrs    = var.subnet_cidrs
+  
+  # Tags
+  tags = local.common_tags
+  
+  # Abhängigkeiten
+  depends_on = [azurerm_resource_group.main]
+}
+
+# Beispiel: Compute-Modul für Citrix DaaS
+module "citrix_infrastructure" {
+  source = "./modules/compute"
+  
+  # Standard-Parameter
+  name_prefix     = local.name_prefix
+  resource_group  = var.cloud_provider == "azure" ? azurerm_resource_group.main[0].name : null
+  location        = var.azure_location
+  environment     = var.environment
+  
+  # Compute-spezifische Parameter
+  vm_count           = var.citrix_controller_count
+  vm_size            = var.citrix_controller_size
+  subnet_id          = module.networking.subnet_ids["citrix"]
+  admin_username     = var.admin_username
+  admin_password     = var.admin_password  # Sollte aus Key Vault kommen
+  
+  # Citrix-spezifische Konfiguration
+  citrix_version     = var.citrix_version
+  domain_join        = var.domain_join
+  
+  # Tags
+  tags = merge(local.common_tags, {
+    Component = "CitrixController"
+    Tier      = "Management"
+  })
+  
+  # Abhängigkeiten
+  depends_on = [module.networking]
+}
+
+# Beispiel: Security-Modul
+module "security" {
+  source = "./modules/security"
+  
+  # Standard-Parameter
+  name_prefix     = local.name_prefix
+  resource_group  = var.cloud_provider == "azure" ? azurerm_resource_group.main[0].name : null
+  location        = var.azure_location
+  environment     = var.environment
+  
+  # Security-spezifische Parameter
+  allowed_ips        = var.allowed_management_ips
+  enable_monitoring  = var.enable_monitoring
+  
+  # Tags
+  tags = merge(local.common_tags, {
+    Component = "Security"
+    Tier      = "Infrastructure"
+  })
+  
+  # Abhängigkeiten
+  depends_on = [module.networking]
+}
