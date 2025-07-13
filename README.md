@@ -12,11 +12,11 @@
 
 **✅ Repository-Qualität: 95/100** (Verbesserung von 85/100)  
 **✅ Template-Nutzbarkeit: 85/100** (Verbesserung von 60/100)  
-**✅ AI-Integration: 100%** (22 Claude + Cursor + Copilot)  
+**✅ AI-Integration: 100%** (22 Claude + GitHub Copilot)  
 **✅ Template-Version: v2.0.0** (Produktionsreif)
 
 ### 🚀 Neue Features (v2.0.0)
-- **🤖 AI-Tools vollständig aktiviert**: Cursor IDE + GitHub Copilot + 22 Claude Commands
+- **🤖 AI-Tools vollständig aktiviert**: GitHub Copilot + 22 Claude Commands
 - **📦 8 Terraform Templates**: Produktionsreife .tf.template Dateien mit Multi-Cloud Support
 - **🔄 GitLab CI/CD Integration**: 6-Stage Pipeline mit Security-Scanning (Trivy, Checkov, TFLint)
 - **📚 Umfassende Dokumentation**: 3800+ Zeilen neue Docs hinzugefügt
@@ -37,7 +37,7 @@ Produktionsreifes **DevOps-Template** für Citrix Desktop-as-a-Service (DaaS) In
 
 - **🎨 Template-Repository**: Sofort einsatzbereit für neue Citrix DaaS-Projekte
 - **☁️ Multi-Cloud-Support**: Azure Cloud, VMware vSphere, Hybrid-Deployments
-- **🤖 AI-Integration**: Claude Code, Cursor IDE, GitHub Copilot vollständig konfiguriert
+- **🤖 AI-Integration**: Claude Code + GitHub Copilot vollständig konfiguriert
 - **🏢 Enterprise-Ready**: Produktionstaugliche Konfigurationen und Security Best Practices
 
 ## 🏗️ Technologie-Stack
@@ -55,7 +55,6 @@ Produktionsreifes **DevOps-Template** für Citrix Desktop-as-a-Service (DaaS) In
 
 ### AI-Development Tools
 - **[Claude Code](https://claude.ai/code)** - 22 aktive Slash Commands für Terraform-Workflows
-- **[Cursor IDE](https://cursor.sh/)** - Terraform Best-Practices + deutsche Kommunikation
 - **GitHub Copilot** - Citrix/VMware/Azure-spezifische Code-Completion
 
 ## 📁 Repository-Struktur (v2.0.0)
@@ -66,8 +65,6 @@ devops_tf_templates/
 │   ├── .claude/
 │   │   ├── commands/           # 22 aktive Slash Commands
 │   │   └── settings.local.json # Umfassende Permissions (53+ Erlaubnisse)
-│   ├── .cursor/
-│   │   └── rules/             # Terraform + Global Rules (aktiviert)
 │   └── .github/
 │       └── copilot/           # Instructions + SIG-spezifische Configs
 │
@@ -175,12 +172,6 @@ git push origin main
 /optimize            # Performance-Optimierung
 ```
 
-### Cursor IDE Integration
-- **🟢 Aktiv**: Terraform Best-Practices automatisch angewendet
-- **🟢 Deutsche Kommunikation**: Eingebaute Sprachpräferenz
-- **🟢 Code-Standards**: snake_case, 2-Leerzeichen, DRY-Prinzip
-- **🟢 Git-Workflow**: Automatische GitLab MR-Integration
-
 ### GitHub Copilot Features
 - **🟢 Citrix-Expertise**: DaaS, Controller, VDA Code-Completion
 - **🟢 VMware-Integration**: vSphere, ESXi spezifische Snippets  
@@ -275,7 +266,6 @@ common_tags = {
 
 ### AI-Development (Optional aber empfohlen)
 - **[Claude Code](https://claude.ai/code)** - 22 Commands sofort verfügbar
-- **[Cursor IDE](https://cursor.sh/)** - Terraform Rules bereits konfiguriert
 - **GitHub Copilot** - Instructions bereits aktiviert
 
 ## 📖 Dokumentation
@@ -296,7 +286,7 @@ common_tags = {
 
 ### Entwicklungsrichtlinien
 - **🇩🇪 Deutsche Kommunikation** in allen Diskussionen und Dokumentation
-- **🏗️ Terraform Best Practices** befolgen (automatisch durch Cursor/Copilot)
+- **🏗️ Terraform Best Practices** befolgen (automatisch durch Copilot)
 - **🧪 Automatische Tests** vor jedem Commit (pre-commit hooks)
 - **📚 Dokumentation** für alle Änderungen aktualisieren
 - **🔒 Security-First**: Keine Secrets in Code, comprehensive Security-Scanning
@@ -347,7 +337,7 @@ archive/completed-*     # Abgeschlossene Projekte
 ### Hilfe erhalten
 1. **📋 Issues**: GitLab Issues für Bug Reports und Feature Requests
 2. **🔀 Merge Requests**: Template-Verbesserungsvorschläge
-3. **🤖 AI-Tools**: Claude/Cursor/Copilot für Development-Support
+3. **🤖 AI-Tools**: Claude/Copilot für Development-Support
 4. **📚 Dokumentation**: Umfassende Guides in docs/ Verzeichnis
 
 ### Success Stories
@@ -361,6 +351,6 @@ archive/completed-*     # Abgeschlossene Projekte
 **🏆 Template Version**: v2.0.0 (Produktionsreif)  
 **📅 Letztes Update**: 2025-07-13  
 **👥 Entwickelt für**: Enterprise Citrix DaaS Infrastructure  
-**🤖 AI-Powered**: Claude Code + Cursor IDE + GitHub Copilot  
+**🤖 AI-Powered**: Claude Code + GitHub Copilot  
 
 *Dieses Premium-Template wurde mit umfassender AI-Tool Integration entwickelt und folgt modernsten DevOps-Praktiken für produktive Citrix DaaS-Deployments in Multi-Cloud-Umgebungen.*
