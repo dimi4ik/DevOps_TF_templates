@@ -201,3 +201,102 @@ common_tags = {
 - Flexible versioning with `~>` for patch updates
 - Concrete versions for stable production deployments
 - Example: `version = "~> 3.0"` for development, `version = "3.74.0"` for production
+
+## Security Guidelines
+
+**IMPORTANT**: Assist with defensive security tasks only. Refuse to create, modify, or improve code that may be used maliciously. Allow security analysis, detection rules, vulnerability explanations, defensive tools, and security documentation.
+
+### Security Best Practices
+- **No Hardcoded Secrets**: Use HashiCorp Vault, Azure Key Vault, or environment variables
+- **Secret Management**: Never commit API keys, passwords, or certificates to repository
+- **Network Security**: Implement least-privilege access and allowed IP restrictions
+- **Infrastructure Security**: Use Trivy and Checkov for vulnerability scanning
+- **Backup Strategy**: Ensure secure backup and recovery procedures for critical infrastructure
+- **Monitoring**: Implement comprehensive logging and alerting for security events
+
+### Malicious Code Prevention
+- **Code Review**: Always analyze code for potential malicious behavior before implementation
+- **Validation**: Use pre-commit hooks for security scanning (Checkov, TFLint, Trivy)
+- **Access Control**: Implement role-based access control for infrastructure resources
+- **Audit Logging**: Enable detailed audit logging for all infrastructure changes
+
+## Enhanced Git Workflow Guidelines
+
+### Commit Message Standards
+- **Language**: German commit messages for discussions, English for technical documentation
+- **Format**: Conventional Commits style with German descriptions
+  ```
+  feat: Neue Terraform Module für Citrix DaaS Integration
+  fix: Security-Patch für VMware vSphere Provider  
+  docs: README.md aktualisiert für Template v3.0.0
+  ```
+
+### Co-Author Integration
+- **Required**: Always include `Co-Authored-By: dima@lejkin.de` in commits
+- **No Claude Branding**: Do NOT include "Generated with Claude Code" lines in commits
+- **Attribution**: Focus on human collaboration, not AI tool attribution
+
+### Branch Management Strategy
+- **Feature Branches**: `feature/{feature-name}` for new functionality
+- **Task Branches**: `task/{project-name}-{task-index}` for specific tasks
+- **Hotfix Branches**: `hotfix/{issue-description}` for urgent fixes
+- **Never Main**: NEVER work directly in main branch - always create feature/task branches
+
+### Version Tagging
+- **Semantic Versioning**: Use `v{major}.{minor}.{patch}` format
+- **Release Tags**: Create tags for major feature completions
+- **Template Versions**: Tag template releases for easy reference
+- **Examples**: `v1.0.0`, `v2.1.0`, `template-v3.0.0`
+
+## Tool Usage Policy and Optimization
+
+### Claude Code Specific Workflows
+- **MultiEdit**: Use for simultaneous changes to multiple `.tf` files
+- **WebFetch**: Fetch Terraform provider documentation during development
+- **Task Tool**: Use for complex searches requiring multiple rounds of globbing/grepping
+- **Batch Operations**: Run multiple bash commands in parallel when possible
+
+### Search and File Management
+- **Prefer Task Tool**: For open-ended searches that may require multiple rounds
+- **Use Glob Tool**: For specific file pattern matching (e.g., `**/*.tf`)
+- **Use Grep Tool**: For content-based searches with regex patterns
+- **Avoid Bash Search**: Never use `find`, `grep`, or `cat` in bash - use dedicated tools
+
+### Terraform-Specific Tool Usage
+- **Validation Workflow**: Use `/terraform-validate` before any commits
+- **Planning Integration**: Use `/plan` for structured implementation with TodoWrite
+- **Documentation**: Use WebFetch for provider documentation lookup
+- **State Management**: Always validate state before apply operations
+
+## Quality Assurance Enhancement
+
+### Pre-Commit Hook Integration
+- **Comprehensive Scanning**: terraform_fmt, terraform_validate, terraform_docs, tflint, trivy, checkov
+- **Automatic Fixes**: Enable auto-fix for formatting and documentation generation
+- **Security Gates**: Block commits that fail security scanning
+- **Performance**: Optimize hook execution for faster development cycles
+
+### Test Framework Discovery
+- **No Assumptions**: Never assume specific test frameworks (pytest, npm test, etc.)
+- **Dynamic Discovery**: Check README.md and package files for test commands
+- **Proactive Suggestion**: If test commands not found, ask user and suggest adding to CLAUDE.md
+- **Documentation**: Document discovered test commands for future reference
+
+### Lint and Typecheck Commands
+- **Discovery Process**: Search for lint/typecheck commands in project configuration
+- **Standard Locations**: Check package.json, Makefile, tox.ini, pyproject.toml
+- **User Interaction**: Ask for commands if not found, suggest documenting in CLAUDE.md
+- **Validation**: Always run lint/typecheck after code changes
+
+### Error Handling and Recovery
+- **Graceful Failures**: Handle pre-commit hook failures gracefully
+- **Retry Logic**: Implement retry for transient failures
+- **User Guidance**: Provide clear guidance when quality checks fail
+- **Documentation**: Keep quality standards documentation current
+
+# important-instruction-reminders
+
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
