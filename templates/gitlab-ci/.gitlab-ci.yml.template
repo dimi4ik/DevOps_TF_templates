@@ -1,0 +1,429 @@
+# .gitlab-ci.yml - GitLab CI/CD Pipeline Template
+# Template für DevOps Terraform Projekte mit umfassender Terraform-Automation
+
+# ================================================
+# PIPELINE-KONFIGURATION
+# ================================================
+
+stages:
+  - validate      # Code-Validierung und Linting
+  - security     # Sicherheits-Scanning  
+  - plan         # Terraform Plan für alle Environments
+  - deploy       # Terraform Apply (manuell getriggert)
+  - test         # Post-Deployment Testing
+  - cleanup      # Cleanup und Monitoring
+
+# Standard-Variablen
+variables:
+  # Terraform Konfiguration
+  TF_VERSION: "1.6.6"
+  TF_ROOT: "${CI_PROJECT_DIR}"
+  TF_ADDRESS: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_ENVIRONMENT_NAME}"
+  TF_VAR_gitlab_token: "${GITLAB_TOKEN}"
+  
+  # Cache-Konfiguration
+  TF_CACHE_KEY: "${CI_COMMIT_REF_SLUG}"
+  
+  # Pipeline-Steuerung
+  AUTO_DEPLOY_DEV: "true"     # Automatisches Deployment in Dev
+  AUTO_DEPLOY_STAGING: "false" # Manuelles Deployment in Staging
+  AUTO_DEPLOY_PROD: "false"   # Manuelles Deployment in Prod
+  
+  # Security Scanning
+  ENABLE_SECURITY_SCAN: "true"
+  ENABLE_COMPLIANCE_CHECK: "true"
+
+# Global Cache für Terraform
+cache:
+  key: "${TF_CACHE_KEY}"
+  paths:
+    - .terraform/
+    - .terraform.lock.hcl
+
+# ================================================
+# DOCKER IMAGES
+# ================================================
+
+.terraform-base: &terraform-base
+  image: 
+    name: hashicorp/terraform:${TF_VERSION}
+    entrypoint: [""]
+  before_script:
+    # Terraform Setup
+    - terraform --version
+    - terraform init -backend-config="address=${TF_ADDRESS}" -backend-config="lock_address=${TF_ADDRESS}/lock" -backend-config="unlock_address=${TF_ADDRESS}/lock" -backend-config="username=${GITLAB_USER_LOGIN}" -backend-config="password=${GITLAB_TOKEN}" -backend-config="lock_method=POST" -backend-config="unlock_method=DELETE" -backend-config="retry_wait_min=5"
+    
+    # Environment Variables Setup
+    - export TF_VAR_environment="${CI_ENVIRONMENT_NAME}"
+    - export TF_VAR_project_name="${CI_PROJECT_NAME}"
+    - export TF_VAR_repository_url="${CI_PROJECT_URL}"
+
+.security-base: &security-base
+  image: 
+    name: aquasec/trivy:latest
+    entrypoint: [""]
+
+# ================================================
+# VALIDATION STAGE
+# ================================================
+
+terraform-fmt:
+  <<: *terraform-base
+  stage: validate
+  script:
+    - terraform fmt -check -recursive
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  allow_failure: false
+
+terraform-validate:
+  <<: *terraform-base
+  stage: validate
+  script:
+    - terraform validate
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  allow_failure: false
+
+terraform-docs:
+  image: quay.io/terraform-docs/terraform-docs:latest
+  stage: validate
+  script:
+    - terraform-docs markdown table --output-file README.md .
+    - |
+      if git diff --exit-code README.md; then
+        echo "Documentation is up to date"
+      else
+        echo "Documentation needs to be updated"
+        git diff README.md
+        exit 1
+      fi
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  allow_failure: true
+
+tflint:
+  image: ghcr.io/terraform-linters/tflint:latest
+  stage: validate
+  before_script:
+    - tflint --version
+    - tflint --init
+  script:
+    - tflint --format sarif > tflint-report.sarif
+    - tflint
+  artifacts:
+    reports:
+      sast: tflint-report.sarif
+    expire_in: 1 week
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  allow_failure: true
+
+# ================================================
+# SECURITY STAGE  
+# ================================================
+
+trivy-config:
+  <<: *security-base
+  stage: security
+  script:
+    - trivy config --format sarif --output trivy-config-report.sarif .
+    - trivy config .
+  artifacts:
+    reports:
+      sast: trivy-config-report.sarif
+    expire_in: 1 week
+  rules:
+    - if: $ENABLE_SECURITY_SCAN == "true"
+  allow_failure: true
+
+checkov:
+  image: bridgecrew/checkov:latest
+  stage: security
+  script:
+    - checkov -d . --framework terraform --output sarif --output-file checkov-report.sarif
+    - checkov -d . --framework terraform
+  artifacts:
+    reports:
+      sast: checkov-report.sarif
+    expire_in: 1 week
+  rules:
+    - if: $ENABLE_SECURITY_SCAN == "true"
+  allow_failure: true
+
+secret-detection:
+  image: gitlabhq/gitlab-runner:alpine
+  stage: security
+  script:
+    - apk add --no-cache git
+    - git log --oneline -n 50 | grep -iE "(password|secret|key|token)" && exit 1 || echo "No secrets found in recent commits"
+    - find . -type f -name "*.tf" -o -name "*.tfvars" | xargs grep -iE "(password|secret|key|token)" && exit 1 || echo "No hardcoded secrets found"
+  rules:
+    - if: $ENABLE_SECURITY_SCAN == "true"
+  allow_failure: true
+
+# ================================================
+# PLAN STAGE
+# ================================================
+
+.plan-base: &plan-base
+  <<: *terraform-base
+  stage: plan
+  script:
+    - terraform plan -var-file="terraform-${CI_ENVIRONMENT_NAME}.auto.tfvars" -out="plan-${CI_ENVIRONMENT_NAME}.tfplan"
+    - terraform show -json "plan-${CI_ENVIRONMENT_NAME}.tfplan" > "plan-${CI_ENVIRONMENT_NAME}.json"
+  artifacts:
+    paths:
+      - "plan-${CI_ENVIRONMENT_NAME}.tfplan"
+      - "plan-${CI_ENVIRONMENT_NAME}.json"
+    expire_in: 1 week
+    reports:
+      terraform: "plan-${CI_ENVIRONMENT_NAME}.json"
+
+plan-dev:
+  <<: *plan-base
+  environment:
+    name: dev
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+plan-staging:
+  <<: *plan-base
+  environment:
+    name: staging
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  needs: ["plan-dev"]
+
+plan-prod:
+  <<: *plan-base
+  environment:
+    name: prod
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+  needs: ["plan-staging"]
+
+# ================================================
+# DEPLOY STAGE
+# ================================================
+
+.deploy-base: &deploy-base
+  <<: *terraform-base
+  stage: deploy
+  script:
+    # Pre-deployment Validierung
+    - terraform plan -var-file="terraform-${CI_ENVIRONMENT_NAME}.auto.tfvars" -detailed-exitcode
+    
+    # Deployment
+    - terraform apply -var-file="terraform-${CI_ENVIRONMENT_NAME}.auto.tfvars" -auto-approve
+    
+    # Post-deployment Output
+    - terraform output -json > "outputs-${CI_ENVIRONMENT_NAME}.json"
+  artifacts:
+    paths:
+      - "outputs-${CI_ENVIRONMENT_NAME}.json"
+    expire_in: 1 month
+  resource_group: $CI_ENVIRONMENT_NAME
+
+deploy-dev:
+  <<: *deploy-base
+  environment:
+    name: dev
+    url: https://$CI_PROJECT_NAME-dev.example.com
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $AUTO_DEPLOY_DEV == "true"
+  needs: ["plan-dev"]
+
+deploy-staging:
+  <<: *deploy-base
+  environment:
+    name: staging
+    url: https://$CI_PROJECT_NAME-staging.example.com
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+  needs: ["plan-staging"]
+
+deploy-prod:
+  <<: *deploy-base
+  environment:
+    name: prod
+    url: https://$CI_PROJECT_NAME.example.com
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+      allow_failure: false
+  needs: ["plan-prod"]
+  before_script:
+    - !reference [.terraform-base, before_script]
+    # Zusätzliche Prod-Validierung
+    - echo "Production deployment - extra validation required"
+    - terraform workspace select prod || terraform workspace new prod
+
+# ================================================
+# TEST STAGE
+# ================================================
+
+infrastructure-test:
+  <<: *terraform-base
+  stage: test
+  script:
+    # Basic Infrastructure Tests
+    - terraform output -json > outputs.json
+    
+    # Test Resource Group exists (Azure)
+    - |
+      if [ "$(jq -r '.resource_group.value.name' outputs.json)" != "null" ]; then
+        echo "✓ Resource Group created successfully"
+      else
+        echo "✗ Resource Group not found"
+        exit 1
+      fi
+    
+    # Test Network Configuration
+    - |
+      if [ "$(jq -r '.networking.value.vnet_id' outputs.json)" != "null" ]; then
+        echo "✓ Virtual Network created successfully"
+      else
+        echo "✗ Virtual Network not found"
+        exit 1
+      fi
+    
+    # Test Citrix Controllers
+    - |
+      vm_count=$(jq -r '.citrix_controllers.value.vm_count' outputs.json)
+      if [ "$vm_count" -gt 0 ]; then
+        echo "✓ Citrix Controllers deployed: $vm_count VMs"
+      else
+        echo "✗ No Citrix Controllers found"
+        exit 1
+      fi
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  needs: ["deploy-dev"]
+
+connectivity-test:
+  image: alpine:latest
+  stage: test
+  before_script:
+    - apk add --no-cache curl jq
+  script:
+    # Load outputs from previous job
+    - cat "outputs-${CI_ENVIRONMENT_NAME}.json"
+    
+    # Test HTTP Connectivity (wenn Load Balancer deployed)
+    - |
+      lb_fqdn=$(jq -r '.citrix_load_balancer.value.lb_fqdn' "outputs-${CI_ENVIRONMENT_NAME}.json")
+      if [ "$lb_fqdn" != "null" ]; then
+        echo "Testing connectivity to $lb_fqdn"
+        curl -f "https://$lb_fqdn" || echo "HTTPS endpoint not yet ready"
+      fi
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  needs: ["deploy-dev"]
+  allow_failure: true
+
+# ================================================
+# CLEANUP STAGE
+# ================================================
+
+destroy-dev:
+  <<: *terraform-base
+  stage: cleanup
+  script:
+    - terraform destroy -var-file="terraform-dev.auto.tfvars" -auto-approve
+  environment:
+    name: dev
+    action: stop
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+  needs: ["deploy-dev"]
+
+cleanup-old-plans:
+  image: alpine:latest
+  stage: cleanup
+  script:
+    - echo "Cleaning up old terraform plans and artifacts"
+    - find . -name "*.tfplan" -mtime +7 -delete
+    - find . -name "plan-*.json" -mtime +7 -delete
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+  allow_failure: true
+
+# ================================================
+# PIPELINE NOTIFICATIONS
+# ================================================
+
+notify-success:
+  image: alpine:latest
+  stage: cleanup
+  before_script:
+    - apk add --no-cache curl
+  script:
+    - |
+      curl -X POST -H 'Content-type: application/json' \
+        --data '{"text":"✅ Terraform deployment successful for '"$CI_PROJECT_NAME"' environment '"$CI_ENVIRONMENT_NAME"'"}' \
+        $SLACK_WEBHOOK_URL
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: on_success
+  needs: ["deploy-dev"]
+  allow_failure: true
+
+notify-failure:
+  image: alpine:latest
+  stage: cleanup
+  before_script:
+    - apk add --no-cache curl
+  script:
+    - |
+      curl -X POST -H 'Content-type: application/json' \
+        --data '{"text":"❌ Terraform deployment failed for '"$CI_PROJECT_NAME"' - Check pipeline '"$CI_PIPELINE_URL"'"}' \
+        $SLACK_WEBHOOK_URL
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: on_failure
+  allow_failure: true
+
+# ================================================
+# SCHEDULED JOBS
+# ================================================
+
+cost-estimation:
+  image: infracost/infracost:latest
+  stage: plan
+  before_script:
+    - infracost auth login --api-key $INFRACOST_API_KEY
+  script:
+    - infracost breakdown --path . --format json --out-file infracost.json
+    - infracost output --path infracost.json --format table
+  artifacts:
+    paths:
+      - infracost.json
+    expire_in: 1 week
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  allow_failure: true
+
+compliance-check:
+  image: bridgecrew/yor:latest
+  stage: security
+  script:
+    - yor tag --directory . --tag-groups "git,code2cloud" --output json --output-file yor-report.json
+    - cat yor-report.json
+  artifacts:
+    paths:
+      - yor-report.json
+    expire_in: 1 week
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $ENABLE_COMPLIANCE_CHECK == "true"
+  allow_failure: true

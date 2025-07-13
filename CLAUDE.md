@@ -20,9 +20,8 @@ This is a **template repository** providing scaffolding for DevOps projects, not
   - `deployment/` - Deployment guides and operations
   - `templates/` - Template customization and examples
   - `promt/` - XML-formatted project specification and workflow definitions
-- `.claude/` - 19 Claude Code slash commands for comprehensive development workflow
-- `.cursor/` - Cursor IDE rules for Terraform best practices (consolidated)
-- `.github/copilot/` - GitHub Copilot instructions with Git workflow integration (consolidated)
+- `.claude/` - 22 Claude Code slash commands for comprehensive development workflow
+- `.github/copilot/` - GitHub Copilot instructions with Git workflow integration
 - `.gitlab/` - GitLab merge request templates
 - `archive/` - Archived AI tool collections (908K)
 
@@ -40,10 +39,10 @@ checkov                     # Infrastructure security analysis
 
 **AI-Assisted Development:**
 - Use `/validate`, `/terraform-validate`, `/plan`, `/deploy` slash commands
-- 19 comprehensive commands in `.claude/` directory
+- 22 comprehensive commands in `.claude/` directory (updated from 19)
 - Workflow-driven development with planning phases
 
-### Active Claude Slash Commands
+### Active Claude Slash Commands (22 Commands)
 
 #### Core Infrastructure Commands
 1. **`/validate`** - Comprehensive multi-language validation workflow
@@ -84,16 +83,22 @@ checkov                     # Infrastructure security analysis
 17. **`/containerize`** - Container and deployment optimization
 18. **`/dependencies`** - Dependency analysis and management
 
+#### Terraform-Specific Commands
+19. **`/tf-apply`** - Terraform apply workflow with validation
+20. **`/tf-destroy`** - Safe Terraform destroy with confirmations
+21. **`/tf-flow`** - Complete Terraform development workflow
+22. **`/tf-pre-commit`** - Run Terraform pre-commit hooks
+
 #### Command Management Strategy
 **Active Commands**: Located in `.claude/commands/` - ready for immediate use
-**Archived Commands**: Located in `archive/ai-tools/claude-commands/` - available for future activation
+**Archived Commands**: Located in `archive/ai-tools/claude-commands/` - 78 zusätzliche Commands verfügbar
 
 **Activating Additional Commands:**
 ```bash
 # Activate command from archive
 mv archive/ai-tools/claude-commands/COMMAND_NAME.md .claude/commands/
 
-# Deactivate command (move back to archive)
+# Deactivate command (move back to archive)  
 mv .claude/commands/COMMAND_NAME.md archive/ai-tools/claude-commands/
 ```
 
@@ -114,8 +119,9 @@ mv .claude/commands/COMMAND_NAME.md archive/ai-tools/claude-commands/
 
 ### Communication Style
 - **Primary Language**: German for communication and discussions
-- **Code Language**: English for code comments, variable names, and technical documentation
+- **Code Language**: English for code comments, variable names, and technical documentation  
 - **Response Style**: Direct, concise answers - avoid lengthy explanations unless requested
+- **AI-Tools**: Claude Code + GitHub Copilot for development assistance
 
 ### Development Workflow
 1. **Planning First**: Create detailed plans in markdown files (saved to `docs/`) before implementation

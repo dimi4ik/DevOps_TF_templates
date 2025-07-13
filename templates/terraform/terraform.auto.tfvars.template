@@ -1,0 +1,176 @@
+# terraform.auto.tfvars - Environment Configuration
+# Template für DevOps Terraform Projekte
+# WICHTIG: Kopiere diese Datei und benenne sie um für spezifische Umgebungen:
+# - terraform-dev.auto.tfvars
+# - terraform-staging.auto.tfvars  
+# - terraform-prod.auto.tfvars
+
+# ================================================
+# PROJEKT-GRUNDKONFIGURATION
+# ================================================
+
+project_name   = "citrix-daas"           # Anpassen für dein Projekt
+environment    = "dev"                   # dev, test, staging, prod
+repository_url = "https://gitlab.example.com/devops/citrix-infrastructure"
+
+# ================================================
+# CLOUD-PROVIDER-KONFIGURATION
+# ================================================
+
+cloud_provider = "azure"                # azure, vmware, multi
+azure_location = "West Europe"          # Anpassen für gewünschte Region
+
+# Alternative Azure Regions:
+# - "North Europe"
+# - "East US"
+# - "West US 2"
+# - "Southeast Asia"
+# - "East Asia"
+
+# ================================================
+# NETZWERK-KONFIGURATION
+# ================================================
+
+# Virtual Network CIDR
+vnet_cidr = "10.0.0.0/16"
+
+# Subnet Configuration
+subnet_cidrs = {
+  "management" = "10.0.1.0/24"          # Management und Administration
+  "citrix"     = "10.0.2.0/24"          # Citrix Controller und Services
+  "database"   = "10.0.3.0/24"          # SQL Server und Datenbanken
+  "dmz"        = "10.0.4.0/24"          # DMZ für externe Verbindungen
+  "vda"        = "10.0.5.0/24"          # Virtual Delivery Agents
+  "storage"    = "10.0.6.0/24"          # File Server und Storage
+}
+
+# ================================================
+# CITRIX DAAS KONFIGURATION
+# ================================================
+
+# Controller Configuration
+citrix_controller_count = 2             # Anzahl Controller (HA empfohlen)
+citrix_controller_size  = "Standard_D4s_v3"  # Azure VM Size
+
+# VM Size Options:
+# - "Standard_D2s_v3"  # 2 vCPU, 8 GB RAM - Development
+# - "Standard_D4s_v3"  # 4 vCPU, 16 GB RAM - Staging/Small Prod
+# - "Standard_D8s_v3"  # 8 vCPU, 32 GB RAM - Production
+# - "Standard_D16s_v3" # 16 vCPU, 64 GB RAM - Large Production
+
+citrix_version = "2024"                 # Citrix DaaS Version
+
+# ================================================
+# SICHERHEITS-KONFIGURATION
+# ================================================
+
+# VM Administrator Account
+admin_username = "citrixadmin"          # Lokaler Administrator
+# admin_password wird aus Key Vault oder Umgebungsvariable gelesen
+
+# Network Security
+allowed_management_ips = [
+  "10.0.0.0/8",                        # Private RFC1918
+  "172.16.0.0/12",                     # Private RFC1918
+  "192.168.0.0/16",                    # Private RFC1918
+  # "203.0.113.0/24",                  # Beispiel: Office-Netzwerk
+  # "198.51.100.0/24",                 # Beispiel: VPN-Gateway
+]
+
+# Active Directory Integration
+domain_join = "contoso.local"           # AD Domain Name (leer für Standalone)
+
+# ================================================
+# TAGGING UND METADATEN
+# ================================================
+
+cost_center      = "IT-Operations"      # Kostenstelle für Billing
+owner           = "DevOps-Team"         # Verantwortliches Team
+resource_purpose = "Citrix DaaS Infrastructure"  # Ressourcen-Zweck
+
+# ================================================
+# MONITORING UND COMPLIANCE
+# ================================================
+
+# Monitoring Configuration
+enable_monitoring = true                # Azure Monitor aktivieren
+enable_backup    = true                 # VM Backup aktivieren
+backup_retention_days = 30              # Backup-Aufbewahrung in Tagen
+
+# Development Features
+enable_auto_shutdown = true             # Auto-Shutdown für Dev/Test
+auto_shutdown_time   = "19:00"          # Shutdown-Zeit (HH:MM)
+
+# ================================================
+# PROVIDER-SPEZIFISCHE KONFIGURATION
+# ================================================
+
+# Azure Provider (Optional - normalerweise über Service Principal)
+# azure_subscription_id = "12345678-1234-1234-1234-123456789012"
+# azure_tenant_id       = "87654321-4321-4321-4321-210987654321"
+
+# VMware Provider (Falls verwendet)
+# vsphere_server              = "vcenter.contoso.local"
+# vsphere_allow_unverified_ssl = false
+
+# ================================================
+# VAULT INTEGRATION (OPTIONAL)
+# ================================================
+
+# HashiCorp Vault
+enable_vault_integration = false       # Vault für Secret Management
+# vault_address           = "https://vault.contoso.local:8200"
+# vault_namespace         = "citrix"
+# vault_auth_path         = "auth/approle/login"
+
+# ================================================
+# GITLAB INTEGRATION (OPTIONAL)
+# ================================================
+
+# GitLab Provider
+enable_gitlab_integration = false      # GitLab für Repository Management
+# gitlab_base_url          = "https://gitlab.contoso.local/api/v4/"
+
+# ================================================
+# ENVIRONMENT-SPEZIFISCHE ÜBERSCHREIBUNGEN
+# ================================================
+
+# Development Environment Adjustments:
+# citrix_controller_count = 1           # Einzelner Controller für Dev
+# citrix_controller_size  = "Standard_D2s_v3"  # Kleinere VM für Dev
+# backup_retention_days   = 7           # Kürzere Retention für Dev
+# allowed_management_ips  = ["0.0.0.0/0"]  # Offener Zugang für Dev (NICHT PROD!)
+
+# Staging Environment Adjustments:
+# citrix_controller_count = 2           # HA für Staging Tests
+# backup_retention_days   = 14          # Mittlere Retention für Staging
+# enable_auto_shutdown    = true        # Kosten sparen in Staging
+
+# Production Environment Adjustments:
+# citrix_controller_count = 3           # 3 Controller für HA
+# citrix_controller_size  = "Standard_D8s_v3"  # Größere VMs für Prod
+# backup_retention_days   = 90          # Längere Retention für Compliance
+# enable_auto_shutdown    = false       # Kein Auto-Shutdown in Prod
+# allowed_management_ips  = ["203.0.113.0/24"]  # Restriktive IPs für Prod
+
+# ================================================
+# SECRETS UND SENSITIVE DATEN
+# ================================================
+
+# WICHTIG: Sensitive Daten NIEMALS in .tfvars committen!
+# Verwende stattdessen:
+# 1. Umgebungsvariablen: TF_VAR_admin_password
+# 2. terraform.tfvars.local (in .gitignore)
+# 3. HashiCorp Vault oder Azure Key Vault
+# 4. GitLab CI/CD Variables (masked)
+# 5. Azure Service Principal für Authentication
+
+# Beispiel für .gitignore Einträge:
+# *.tfvars.local
+# terraform.tfvars.secret
+# .terraform/
+# *.tfstate
+# *.tfstate.*
+# crash.log
+# override.tf
+# override.tf.json

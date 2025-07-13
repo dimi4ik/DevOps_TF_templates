@@ -1,0 +1,255 @@
+# variables.tf - Input-Variablen mit Validierung
+# Template für DevOps Terraform Projekte
+
+# ================================================
+# PROJEKT-GRUNDKONFIGURATION
+# ================================================
+
+variable "project_name" {
+  description = "Name des Projekts (wird für Ressourcen-Naming verwendet)"
+  type        = string
+  
+  validation {
+    condition     = length(var.project_name) >= 3 && length(var.project_name) <= 15
+    error_message = "Project name muss zwischen 3 und 15 Zeichen lang sein."
+  }
+  
+  validation {
+    condition     = can(regex("^[a-z][a-z0-9-]*[a-z0-9]$", var.project_name))
+    error_message = "Project name darf nur Kleinbuchstaben, Zahlen und Bindestriche enthalten."
+  }
+}
+
+variable "environment" {
+  description = "Deployment-Umgebung"
+  type        = string
+  default     = "dev"
+  
+  validation {
+    condition     = contains(["dev", "test", "staging", "prod"], var.environment)
+    error_message = "Environment muss einer der folgenden Werte sein: dev, test, staging, prod."
+  }
+}
+
+variable "repository_url" {
+  description = "Git Repository URL für Tracking"
+  type        = string
+  default     = ""
+}
+
+# ================================================
+# CLOUD-PROVIDER-KONFIGURATION
+# ================================================
+
+variable "cloud_provider" {
+  description = "Cloud Provider für Deployment"
+  type        = string
+  default     = "azure"
+  
+  validation {
+    condition     = contains(["azure", "vmware", "multi"], var.cloud_provider)
+    error_message = "Cloud provider muss azure, vmware oder multi sein."
+  }
+}
+
+variable "azure_location" {
+  description = "Azure Region für Ressourcen-Deployment"
+  type        = string
+  default     = "West Europe"
+  
+  validation {
+    condition = contains([
+      "West Europe", "North Europe", "East US", "West US", 
+      "Central US", "Southeast Asia", "East Asia"
+    ], var.azure_location)
+    error_message = "Azure location muss eine gültige Azure-Region sein."
+  }
+}
+
+# ================================================
+# NETZWERK-KONFIGURATION
+# ================================================
+
+variable "vnet_cidr" {
+  description = "CIDR-Block für Virtual Network"
+  type        = string
+  default     = "10.0.0.0/16"
+  
+  validation {
+    condition     = can(cidrhost(var.vnet_cidr, 0))
+    error_message = "VNet CIDR muss ein gültiger CIDR-Block sein."
+  }
+}
+
+variable "subnet_cidrs" {
+  description = "CIDR-Blöcke für Subnets"
+  type = map(string)
+  default = {
+    "management" = "10.0.1.0/24"
+    "citrix"     = "10.0.2.0/24"
+    "database"   = "10.0.3.0/24"
+    "dmz"        = "10.0.4.0/24"
+  }
+  
+  validation {
+    condition = alltrue([
+      for cidr in values(var.subnet_cidrs) : can(cidrhost(cidr, 0))
+    ])
+    error_message = "Alle Subnet CIDRs müssen gültige CIDR-Blöcke sein."
+  }
+}
+
+# ================================================
+# CITRIX DAAS KONFIGURATION
+# ================================================
+
+variable "citrix_controller_count" {
+  description = "Anzahl der Citrix Controller VMs"
+  type        = number
+  default     = 2
+  
+  validation {
+    condition     = var.citrix_controller_count >= 1 && var.citrix_controller_count <= 10
+    error_message = "Citrix controller count muss zwischen 1 und 10 liegen."
+  }
+}
+
+variable "citrix_controller_size" {
+  description = "VM-Größe für Citrix Controller"
+  type        = string
+  default     = "Standard_D4s_v3"
+  
+  validation {
+    condition = contains([
+      "Standard_D2s_v3", "Standard_D4s_v3", "Standard_D8s_v3", "Standard_D16s_v3"
+    ], var.citrix_controller_size)
+    error_message = "Citrix controller size muss eine gültige Azure VM-Größe sein."
+  }
+}
+
+variable "citrix_version" {
+  description = "Citrix DaaS Version"
+  type        = string
+  default     = "2024"
+  
+  validation {
+    condition     = contains(["2022", "2023", "2024"], var.citrix_version)
+    error_message = "Citrix version muss eine unterstützte Version sein."
+  }
+}
+
+# ================================================
+# SICHERHEITS-KONFIGURATION
+# ================================================
+
+variable "admin_username" {
+  description = "Administrator-Benutzername für VMs"
+  type        = string
+  default     = "citrixadmin"
+  
+  validation {
+    condition     = length(var.admin_username) >= 3 && length(var.admin_username) <= 20
+    error_message = "Admin username muss zwischen 3 und 20 Zeichen lang sein."
+  }
+}
+
+variable "admin_password" {
+  description = "Administrator-Passwort (sollte aus Key Vault kommen)"
+  type        = string
+  sensitive   = true
+  default     = ""
+  
+  validation {
+    condition     = length(var.admin_password) >= 12
+    error_message = "Admin password muss mindestens 12 Zeichen lang sein."
+  }
+}
+
+variable "allowed_management_ips" {
+  description = "Erlaubte IP-Adressen für Management-Zugriff"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]  # WARNUNG: Sollte in Produktion eingeschränkt werden
+  
+  validation {
+    condition = alltrue([
+      for ip in var.allowed_management_ips : can(cidrhost(ip, 0))
+    ])
+    error_message = "Alle allowed IPs müssen gültige CIDR-Notationen sein."
+  }
+}
+
+variable "domain_join" {
+  description = "Active Directory Domain für Domain Join"
+  type        = string
+  default     = ""
+}
+
+# ================================================
+# TAGGING UND METADATEN
+# ================================================
+
+variable "cost_center" {
+  description = "Cost Center für Billing und Tracking"
+  type        = string
+  default     = "IT-Operations"
+}
+
+variable "owner" {
+  description = "Projektverantwortlicher/Team"
+  type        = string
+  default     = "DevOps-Team"
+}
+
+variable "resource_purpose" {
+  description = "Zweck der Ressourcen für Documentation"
+  type        = string
+  default     = "Citrix DaaS Infrastructure"
+}
+
+# ================================================
+# MONITORING UND COMPLIANCE
+# ================================================
+
+variable "enable_monitoring" {
+  description = "Aktiviert Azure Monitor und Log Analytics"
+  type        = bool
+  default     = true
+}
+
+variable "enable_backup" {
+  description = "Aktiviert automatische VM-Backups"
+  type        = bool
+  default     = true
+}
+
+variable "backup_retention_days" {
+  description = "Anzahl Tage für Backup-Aufbewahrung"
+  type        = number
+  default     = 30
+  
+  validation {
+    condition     = var.backup_retention_days >= 7 && var.backup_retention_days <= 365
+    error_message = "Backup retention muss zwischen 7 und 365 Tagen liegen."
+  }
+}
+
+# ================================================
+# ENTWICKLUNG UND TESTING
+# ================================================
+
+variable "enable_auto_shutdown" {
+  description = "Aktiviert automatisches Herunterfahren für Dev/Test-Umgebungen"
+  type        = bool
+  default     = true
+}
+
+variable "auto_shutdown_time" {
+  description = "Uhrzeit für automatisches Herunterfahren (HH:MM)"
+  type        = string
+  default     = "19:00"
+  
+  validation {
+    condition     = can(regex("^([01]?[0-9]|2[0-3]):[0-5][0-9]$", var.auto_shutdown_time))
+    error_message = "Auto shutdown time muss im Format HH:MM sein."
+  }
+}
