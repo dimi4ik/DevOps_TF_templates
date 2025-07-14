@@ -1,4 +1,5 @@
 sklad.auto.tfvars
+mcp-config-export.json
 
 # Misc
 mega-linter.log
