@@ -1,17 +1,17 @@
 # /generate-resource
 
-Erstellt optimierte Terraform-Ressourcen-Templates mit integrierten Best Practices, automatischem Tagging und Security-Hardening.
+Creates optimized Terraform resource templates with integrated best practices, automatic tagging, and security hardening.
 
-## Funktionalität
+## Functionality
 
 ### Intelligent Resource Scaffolding
-- **Best-Practice Templates**: Generiert Terraform-Code nach Industry Standards
-- **Security-First Approach**: Implementiert defensive Security-Konfigurationen by default
-- **Auto-Tagging**: Fügt automatisch Compliance-konforme Resource Tags hinzu
-- **IAM Least-Privilege**: Erstellt minimal notwendige Berechtigungen
-- **Testing Integration**: Generiert Terratest-kompatible Unit Tests
+- **Best-Practice Templates**: Generates Terraform code according to industry standards
+- **Security-First Approach**: Implements defensive security configurations by default
+- **Auto-Tagging**: Automatically adds compliance-compliant resource tags
+- **IAM Least-Privilege**: Creates minimal necessary permissions
+- **Testing Integration**: Generates Terratest-compatible unit tests
 
-### Unterstützte Resource Types
+### Supported Resource Types
 1. **Compute**: EC2, ECS, Lambda, Azure VMs, GCP Compute Engine
 2. **Storage**: S3, EBS, Azure Storage, GCS mit Encryption
 3. **Networking**: VPC, Subnets, Security Groups, Load Balancers
@@ -20,10 +20,10 @@ Erstellt optimierte Terraform-Ressourcen-Templates mit integrierten Best Practic
 6. **Monitoring**: CloudWatch, Application Insights, Cloud Monitoring
 
 ### Template Features
-- **Validation Rules**: Precondition blocks für kritische Parameter
-- **Output Definitions**: Strukturierte Outputs für Module-Integration
-- **Variable Documentation**: Umfassende Beschreibungen und Beispiele
-- **Provider Versioning**: Pinned versions für Produktions-Stabilität
+- **Validation Rules**: Precondition blocks for critical parameters
+- **Output Definitions**: Structured outputs for module integration
+- **Variable Documentation**: Comprehensive descriptions and examples
+- **Provider Versioning**: Pinned versions for production stability
 
 ## Implementation
 
@@ -333,22 +333,22 @@ func Test${RESOURCE_NAME_CAMEL}(t *testing.T) {
 ## Command Usage
 
 ```bash
-# Generiere AWS S3 Bucket
+# Generate AWS S3 Bucket
 /generate-resource s3_bucket data-lake aws dev
 
-# Generiere Azure VM mit Custom Config
+# Generate Azure VM with Custom Config
 /generate-resource virtual_machine web-server azure prod --size Standard_D2s_v3
 
-# Generiere Lambda Function mit API Gateway
+# Generate Lambda Function with API Gateway
 /generate-resource lambda_api user-service aws staging --runtime python3.9
 
-# Generiere Kubernetes Deployment
+# Generate Kubernetes Deployment
 /generate-resource k8s_deployment microservice gcp dev --replicas 3
 
-# Batch-Generierung aus Template
+# Batch generation from template
 /generate-resource --from-template web-tier-template --environment prod
 
-# Mit Security-Profil
+# With security profile
 /generate-resource database postgres azure prod --security-profile high-compliance
 ```
 

@@ -1,21 +1,21 @@
 # /tf-security-scan
 
-Führt umfassende Sicherheitsscans für Terraform-Konfigurationen durch mit Integration von Wiz, HashiCorp und Compliance-Tools.
+Performs comprehensive security scans for Terraform configurations with integration of Wiz, HashiCorp, and compliance tools.
 
-## Funktionalität
+## Functionality
 
 ### Pre-Apply Security Validation
-- Scannt Terraform-Pläne vor dem Apply auf Sicherheitslücken
-- Integriert Wiz Security Platform für Cloud-Ressourcen-Analyse
-- Enforcement-Level: Advisory oder Mandatory (blockiert unsichere Deployments)
-- Erstellt Risk-Score-Reports mit CVSS-Bewertungen
+- Scans Terraform plans before apply for security vulnerabilities
+- Integrates Wiz Security Platform for cloud resource analysis
+- Enforcement level: Advisory or Mandatory (blocks insecure deployments)
+- Creates risk score reports with CVSS ratings
 
 ### Security Checks
-1. **Secrets Detection**: Erkennt hardcodierte API-Keys, Passwörter, Zertifikate
-2. **IAM Policy Analysis**: Überprüft zu permissive Berechtigungen 
-3. **Network Security**: Analysiert Security Groups, NACLs, öffentliche Zugriffe
-4. **Storage Security**: Prüft öffentlich zugängliche S3 Buckets, Storage Accounts
-5. **CVE Scanning**: Matched Provider-Versionen gegen bekannte Vulnerabilities
+1. **Secrets Detection**: Detects hardcoded API keys, passwords, certificates
+2. **IAM Policy Analysis**: Reviews overly permissive permissions
+3. **Network Security**: Analyzes Security Groups, NACLs, public access
+4. **Storage Security**: Checks publicly accessible S3 buckets, storage accounts
+5. **CVE Scanning**: Matches provider versions against known vulnerabilities
 
 ### Compliance Frameworks
 - CIS Benchmarks (AWS, Azure, GCP)
@@ -83,10 +83,10 @@ go install github.com/aquasecurity/tfsec/cmd/tfsec@latest
 
 ## Integration Points
 
-- **Pre-Commit Hook**: Automatischer Scan bei Terraform-Änderungen
-- **GitLab CI**: Integration als Pipeline-Stage vor Apply
-- **Slack/Teams**: Alert-Benachrichtigungen bei kritischen Findings
-- **SIEM**: Export von Security-Events für Monitoring
+- **Pre-Commit Hook**: Automatic scan on Terraform changes
+- **GitLab CI**: Integration as pipeline stage before apply
+- **Slack/Teams**: Alert notifications for critical findings
+- **SIEM**: Export of security events for monitoring
 
 ## Command Usage
 
@@ -94,12 +94,12 @@ go install github.com/aquasecurity/tfsec/cmd/tfsec@latest
 # Basic scan
 /tf-security-scan
 
-# Scan mit Enforcement-Level
+# Scan with enforcement level
 /tf-security-scan --enforce mandatory
 
-# Scan für spezifische Compliance
+# Scan for specific compliance
 /tf-security-scan --compliance cis-aws,soc2
 
-# Scan mit Custom Rules
+# Scan with custom rules
 /tf-security-scan --rules-dir ./security-rules/
 ```

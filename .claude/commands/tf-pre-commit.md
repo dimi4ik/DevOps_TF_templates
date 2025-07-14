@@ -2,15 +2,15 @@
 
 **Name**: `/tf-pre-commit`
 
-**Description**: Umfassende Pre-commit Hook Validierung für Terraform-Projekte mit detailliertem Reporting
+**Description**: Comprehensive pre-commit hook validation for Terraform projects with detailed reporting
 
 **Usage**: `/tf-pre-commit [options]`
 
 **Options**:
-- `--fix` - Automatische Korrekturen anwenden wo möglich
-- `--verbose` - Detaillierte Ausgabe aller Checks
-- `--terraform-only` - Nur Terraform-spezifische Hooks ausführen
-- `--security-only` - Nur Security-Checks (TFLint, Trivy, Checkov)
+- `--fix` - Apply automatic corrections where possible
+- `--verbose` - Detailed output of all checks
+- `--terraform-only` - Run only Terraform-specific hooks
+- `--security-only` - Run only security checks (TFLint, Trivy, Checkov)
 
 ## Implementation
 

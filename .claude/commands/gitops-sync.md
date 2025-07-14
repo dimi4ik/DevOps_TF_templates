@@ -1,15 +1,15 @@
 # /gitops-sync
 
-Implementiert GitOps-Workflow mit automatischer Drift-Erkennung, Configuration-Synchronisation und 4-Augen-Prinzip für Infrastructure Changes.
+Implements GitOps workflow with automatic drift detection, configuration synchronization, and four-eyes principle for infrastructure changes.
 
-## Funktionalität
+## Functionality
 
-### GitOps-Synchronisation
-- **Drift-Detection**: Automatische Erkennung von Konfigurationsabweichungen zwischen Git und Live-Umgebung
-- **Auto-Sync**: Sichere Synchronisation von Git-Repository-Änderungen zu Target-Environments
-- **Approval-Workflows**: 4-Augen-Prinzip für kritische Infrastructure-Changes
-- **Rollback-Mechanismus**: Schnelles Rollback bei fehlgeschlagenen Deployments
-- **Audit-Trail**: Vollständige Nachverfolgung aller Configuration-Changes
+### GitOps Synchronization
+- **Drift Detection**: Automatic detection of configuration deviations between Git and live environment
+- **Auto-Sync**: Secure synchronization of Git repository changes to target environments
+- **Approval Workflows**: Four-eyes principle for critical infrastructure changes
+- **Rollback Mechanism**: Quick rollback for failed deployments
+- **Audit Trail**: Complete tracking of all configuration changes
 
 ### Multi-Platform Support
 1. **Kubernetes**: ArgoCD, Flux, Custom Controllers
@@ -19,10 +19,10 @@ Implementiert GitOps-Workflow mit automatischer Drift-Erkennung, Configuration-S
 5. **Configuration Management**: Helm, Kustomize, Jsonnet
 
 ### Security & Compliance
-- **RBAC Integration**: Role-Based Access Control für Repository und Environments
-- **Encryption**: Git-Crypt, SOPS für Secrets Management
-- **Signing**: GPG-Signing für alle Configuration-Changes
-- **Compliance**: SOX, SOC2, PCI-DSS Audit-Trails
+- **RBAC Integration**: Role-Based Access Control for repository and environments
+- **Encryption**: Git-Crypt, SOPS for secrets management
+- **Signing**: GPG-Signing for all configuration changes
+- **Compliance**: SOX, SOC2, PCI-DSS audit trails
 
 ## Implementation
 
@@ -322,7 +322,7 @@ workflows:
             python3 scripts/validate-infrastructure.py
 ```
 
-## 4-Augen-Prinzip Implementation
+## Four-Eyes Principle Implementation
 
 ### GitHub Branch Protection
 ```json

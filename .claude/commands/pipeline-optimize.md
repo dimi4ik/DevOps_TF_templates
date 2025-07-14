@@ -1,28 +1,28 @@
 # /pipeline-optimize
 
-Analysiert CI/CD-Pipeline-Performance und implementiert Optimierungen für schnellere, zuverlässigere Deployments.
+Analyzes CI/CD pipeline performance and implements optimizations for faster, more reliable deployments.
 
-## Funktionalität
+## Functionality
 
-### Performance-Analyse
-- **Pipeline-Metriken**: Laufzeit-Analyse, Erfolgsraten, Bottleneck-Identifikation
-- **Flaky Test Detection**: Erkennt instabile Tests durch historische Daten
-- **Resource-Profiling**: CPU/Memory-Nutzung und Optimierungspotenzial
-- **Parallel Execution**: Identifiziert parallelisierbare Jobs und Dependencies
-- **Cache-Optimierung**: Dependency-Caching und Build-Artifact-Management
+### Performance Analysis
+- **Pipeline Metrics**: Runtime analysis, success rates, bottleneck identification
+- **Flaky Test Detection**: Detects unstable tests through historical data
+- **Resource Profiling**: CPU/Memory usage and optimization potential
+- **Parallel Execution**: Identifies parallelizable jobs and dependencies
+- **Cache Optimization**: Dependency caching and build artifact management
 
-### Optimierungsstrategien
-1. **Test-Parallelisierung**: Aufteilen langsamer Test-Suites
-2. **Build-Cache**: Intelligentes Caching für Dependencies und Artifacts
-3. **Matrix-Strategy**: Optimierte Test-Matrix-Konfigurationen
-4. **Resource-Allocation**: Right-sizing von Runner-Instanzen
-5. **Stage-Optimization**: Eliminierung redundanter Pipeline-Stages
+### Optimization Strategies
+1. **Test Parallelization**: Splitting slow test suites
+2. **Build Cache**: Intelligent caching for dependencies and artifacts
+3. **Matrix Strategy**: Optimized test matrix configurations
+4. **Resource Allocation**: Right-sizing of runner instances
+5. **Stage Optimization**: Elimination of redundant pipeline stages
 
 ### Monitoring & Alerting
-- **Pipeline-SLA**: Definition und Überwachung von Performance-Zielen
-- **Regression-Detection**: Automatische Erkennung von Performance-Verschlechterungen
-- **Cost-Optimization**: Analysis von CI/CD-Kosten und Einsparpotenzial
-- **Trend-Analysis**: Langzeit-Performance-Trends und Kapazitätsplanung
+- **Pipeline SLA**: Definition and monitoring of performance targets
+- **Regression Detection**: Automatic detection of performance degradation
+- **Cost Optimization**: Analysis of CI/CD costs and savings potential
+- **Trend Analysis**: Long-term performance trends and capacity planning
 
 ## Implementation
 
