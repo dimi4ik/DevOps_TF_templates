@@ -1,0 +1,252 @@
+{
+  "analysis_metadata": {
+    "generated_date": "2025-07-14T15:00:00Z",
+    "purpose": "DevOps-Fokussierung - Terraform/Ansible Relevanz-Analyse",
+    "current_commands": 32,
+    "target": "Nur Terraform/Ansible/DevOps relevante Commands behalten",
+    "user_requirement": "Entfernung nicht-relevanter Commands für DevOps-Workflows"
+  },
+  "terraform_ansible_core_commands": [
+    {
+      "command": "/tf-validate",
+      "relevance": "ESSENTIAL",
+      "reason": "Core Terraform workflow (fmt, validate, plan)"
+    },
+    {
+      "command": "/tf-deploy", 
+      "relevance": "ESSENTIAL",
+      "reason": "Safe Terraform deployment with confirmations"
+    },
+    {
+      "command": "/tf-destroy",
+      "relevance": "ESSENTIAL", 
+      "reason": "Infrastructure cleanup and cost management"
+    },
+    {
+      "command": "/tf-pre-commit",
+      "relevance": "ESSENTIAL",
+      "reason": "Git workflow integration für Terraform"
+    },
+    {
+      "command": "/tf-security-scan",
+      "relevance": "ESSENTIAL",
+      "reason": "Infrastructure security compliance"
+    },
+    {
+      "command": "/validate",
+      "relevance": "HIGH",
+      "reason": "Multi-language validation inkl. Terraform/YAML"
+    },
+    {
+      "command": "/deploy",
+      "relevance": "HIGH", 
+      "reason": "Kubernetes/Container deployment"
+    },
+    {
+      "command": "/audit",
+      "relevance": "HIGH",
+      "reason": "Security audit für Infrastructure-as-Code"
+    },
+    {
+      "command": "/deps",
+      "relevance": "HIGH",
+      "reason": "Dependency analysis für Terraform/Ansible modules"
+    },
+    {
+      "command": "/containerize",
+      "relevance": "HIGH",
+      "reason": "Docker/Kubernetes workflows"
+    },
+    {
+      "command": "/monitor",
+      "relevance": "HIGH",
+      "reason": "Infrastructure monitoring setup"
+    },
+    {
+      "command": "/health-check",
+      "relevance": "HIGH",
+      "reason": "System health monitoring für deployed infrastructure"
+    },
+    {
+      "command": "/harden",
+      "relevance": "MEDIUM",
+      "reason": "Security hardening für Container/Infrastructure"
+    },
+    {
+      "command": "/generate-resource",
+      "relevance": "MEDIUM",
+      "reason": "Terraform resource scaffolding"
+    },
+    {
+      "command": "/ci-setup",
+      "relevance": "MEDIUM",
+      "reason": "CI/CD pipeline für Infrastructure deployment"
+    },
+    {
+      "command": "/gitops-sync",
+      "relevance": "MEDIUM",
+      "reason": "GitOps workflows für Infrastructure"
+    },
+    {
+      "command": "/pipeline-optimize",
+      "relevance": "MEDIUM",
+      "reason": "CI/CD optimization für DevOps"
+    },
+    {
+      "command": "/incident-response",
+      "relevance": "MEDIUM",
+      "reason": "Operations incident handling"
+    },
+    {
+      "command": "/monitor-setup",
+      "relevance": "MEDIUM",
+      "reason": "Observability stack setup"
+    },
+    {
+      "command": "/log-trace",
+      "relevance": "MEDIUM",
+      "reason": "Debugging deployed infrastructure"
+    }
+  ],
+  "task_management_commands": [
+    {
+      "command": "/plan",
+      "relevance": "HIGH",
+      "reason": "Project planning für DevOps tasks"
+    },
+    {
+      "command": "/task-create",
+      "relevance": "HIGH", 
+      "reason": "DevOps task management"
+    },
+    {
+      "command": "/task-update",
+      "relevance": "HIGH",
+      "reason": "DevOps progress tracking"
+    },
+    {
+      "command": "/task-list",
+      "relevance": "MEDIUM",
+      "reason": "DevOps project overview"
+    },
+    {
+      "command": "/task-show",
+      "relevance": "MEDIUM",
+      "reason": "DevOps task details"
+    },
+    {
+      "command": "/task-search",
+      "relevance": "MEDIUM",
+      "reason": "DevOps task discovery"
+    },
+    {
+      "command": "/task-log",
+      "relevance": "LOW",
+      "reason": "Nice-to-have für detailed tracking"
+    },
+    {
+      "command": "/task-archive",
+      "relevance": "LOW",
+      "reason": "Cleanup functionality"
+    }
+  ],
+  "non_devops_commands": [
+    {
+      "command": "/benchmark",
+      "relevance": "NOT_RELEVANT",
+      "reason": "Performance testing - nicht core DevOps workflow",
+      "action": "MOVE_TO_ARCHIVE"
+    },
+    {
+      "command": "/perf",
+      "relevance": "NOT_RELEVANT", 
+      "reason": "Application performance - nicht Infrastructure focus",
+      "action": "MOVE_TO_ARCHIVE"
+    },
+    {
+      "command": "/debug",
+      "relevance": "NOT_RELEVANT",
+      "reason": "Application debugging - nicht Infrastructure focus", 
+      "action": "MOVE_TO_ARCHIVE"
+    },
+    {
+      "command": "/deep-dive",
+      "relevance": "NOT_RELEVANT",
+      "reason": "General investigation - nicht DevOps-spezifisch",
+      "action": "MOVE_TO_ARCHIVE"
+    }
+  ],
+  "devops_focused_structure": {
+    "essential_terraform": [
+      "/tf-validate",
+      "/tf-deploy", 
+      "/tf-destroy",
+      "/tf-pre-commit",
+      "/tf-security-scan"
+    ],
+    "infrastructure_deployment": [
+      "/validate",
+      "/deploy",
+      "/containerize",
+      "/generate-resource"
+    ],
+    "security_compliance": [
+      "/audit",
+      "/harden"
+    ],
+    "operations_monitoring": [
+      "/monitor",
+      "/health-check",
+      "/monitor-setup",
+      "/log-trace",
+      "/incident-response"
+    ],
+    "cicd_automation": [
+      "/ci-setup",
+      "/gitops-sync", 
+      "/pipeline-optimize"
+    ],
+    "dependency_management": [
+      "/deps"
+    ],
+    "project_management": [
+      "/plan",
+      "/task-create",
+      "/task-update",
+      "/task-list",
+      "/task-show",
+      "/task-search"
+    ]
+  },
+  "recommended_actions": {
+    "keep_commands": 24,
+    "move_to_archive": [
+      "/benchmark",
+      "/perf", 
+      "/debug",
+      "/deep-dive",
+      "/task-log",
+      "/task-archive"
+    ],
+    "final_command_count": 26,
+    "reduction_percentage": "19%",
+    "focus_improvement": "100% DevOps/Terraform/Ansible focused"
+  },
+  "rationale": {
+    "user_focus": "Terraform/Ansible DevOps workflows",
+    "remove_criteria": [
+      "Application-level debugging/performance",
+      "General-purpose development tools", 
+      "Non-infrastructure related commands",
+      "Nice-to-have task management features"
+    ],
+    "keep_criteria": [
+      "Terraform core workflows",
+      "Infrastructure deployment", 
+      "Security & compliance",
+      "CI/CD & GitOps",
+      "Operations & monitoring",
+      "Essential project management"
+    ]
+  }
+}
