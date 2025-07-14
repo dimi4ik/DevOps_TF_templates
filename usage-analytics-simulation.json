@@ -1,0 +1,333 @@
+{
+  "simulation_metadata": {
+    "generated_date": "2025-07-14T12:30:00Z",
+    "simulation_period": "90_days",
+    "user_profile": "DevOps Engineer (Terraform/Ansible Focus)",
+    "methodology": "Frequency-based modeling with workflow integration",
+    "confidence_level": "High (based on command complexity and workflow patterns)"
+  },
+  "usage_patterns": {
+    "daily_commands": {
+      "total_daily_usage": 45,
+      "commands": [
+        {
+          "command": "/validate",
+          "daily_uses": 8,
+          "weekly_uses": 56,
+          "monthly_uses": 240,
+          "use_cases": ["Pre-commit validation", "Code review prep", "Bug investigation"]
+        },
+        {
+          "command": "/terraform-validate", 
+          "daily_uses": 6,
+          "weekly_uses": 42,
+          "monthly_uses": 180,
+          "use_cases": ["Terraform development", "Infrastructure changes", "Quick syntax checks"]
+        },
+        {
+          "command": "/tf-flow",
+          "daily_uses": 5,
+          "weekly_uses": 35,
+          "monthly_uses": 150,
+          "use_cases": ["Complete TF workflow", "Code formatting", "Plan generation"]
+        },
+        {
+          "command": "/task-create",
+          "daily_uses": 4,
+          "weekly_uses": 28,
+          "monthly_uses": 120,
+          "use_cases": ["New feature planning", "Bug tracking", "Sprint planning"]
+        },
+        {
+          "command": "/task-update",
+          "daily_uses": 3,
+          "weekly_uses": 21,
+          "monthly_uses": 90,
+          "use_cases": ["Progress updates", "Status changes", "Task completion"]
+        },
+        {
+          "command": "/tf-apply",
+          "daily_uses": 3,
+          "weekly_uses": 21,
+          "monthly_uses": 90,
+          "use_cases": ["Infrastructure deployment", "Environment updates", "Resource provisioning"]
+        },
+        {
+          "command": "/task-list",
+          "daily_uses": 3,
+          "weekly_uses": 21,
+          "monthly_uses": 90,
+          "use_cases": ["Daily standup prep", "Sprint overview", "Priority review"]
+        },
+        {
+          "command": "/task-search",
+          "daily_uses": 3,
+          "weekly_uses": 21,
+          "monthly_uses": 90,
+          "use_cases": ["Finding specific tasks", "Context retrieval", "Historical search"]
+        },
+        {
+          "command": "/debug",
+          "daily_uses": 2,
+          "weekly_uses": 14,
+          "monthly_uses": 60,
+          "use_cases": ["Troubleshooting", "Error analysis", "Performance issues"]
+        },
+        {
+          "command": "/plan",
+          "daily_uses": 2,
+          "weekly_uses": 14,
+          "monthly_uses": 60,
+          "use_cases": ["Feature planning", "Sprint planning", "Architecture decisions"]
+        },
+        {
+          "command": "/gitops-sync",
+          "daily_uses": 2,
+          "weekly_uses": 14,
+          "monthly_uses": 60,
+          "use_cases": ["Deployment sync", "GitOps updates", "Drift detection"]
+        },
+        {
+          "command": "/log-trace",
+          "daily_uses": 2,
+          "weekly_uses": 14,
+          "monthly_uses": 60,
+          "use_cases": ["Issue investigation", "Performance analysis", "Debugging"]
+        },
+        {
+          "command": "/task-show",
+          "daily_uses": 2,
+          "weekly_uses": 14,
+          "monthly_uses": 60,
+          "use_cases": ["Task detail review", "Context understanding", "Progress check"]
+        },
+        {
+          "command": "/task-log",
+          "daily_uses": 1,
+          "weekly_uses": 7,
+          "monthly_uses": 30,
+          "use_cases": ["Progress documentation", "Time tracking", "Status updates"]
+        },
+        {
+          "command": "/tf-pre-commit",
+          "daily_uses": 1,
+          "weekly_uses": 7,
+          "monthly_uses": 30,
+          "use_cases": ["Pre-commit validation", "Quality gates", "Security checks"]
+        },
+        {
+          "command": "/tf-security-scan",
+          "daily_uses": 1,
+          "weekly_uses": 7,
+          "monthly_uses": 30,
+          "use_cases": ["Security validation", "Compliance checks", "Vulnerability scanning"]
+        },
+        {
+          "command": "/deploy",
+          "daily_uses": 1,
+          "weekly_uses": 7,
+          "monthly_uses": 30,
+          "use_cases": ["K8s deployment", "Application updates", "Service deployment"]
+        }
+      ]
+    },
+    "weekly_commands": {
+      "total_weekly_usage": 35,
+      "commands": [
+        {
+          "command": "/security-audit",
+          "weekly_uses": 5,
+          "monthly_uses": 20,
+          "use_cases": ["Security reviews", "Compliance audits", "Vulnerability assessment"]
+        },
+        {
+          "command": "/harden",
+          "weekly_uses": 3,
+          "monthly_uses": 12,
+          "use_cases": ["Security hardening", "Best practices implementation", "Compliance improvements"]
+        },
+        {
+          "command": "/monitor",
+          "weekly_uses": 3,
+          "monthly_uses": 12,
+          "use_cases": ["System monitoring setup", "Alert configuration", "Dashboard creation"]
+        },
+        {
+          "command": "/benchmark",
+          "weekly_uses": 3,
+          "monthly_uses": 12,
+          "use_cases": ["Performance testing", "Optimization planning", "Baseline establishment"]
+        },
+        {
+          "command": "/dependencies",
+          "weekly_uses": 2,
+          "monthly_uses": 8,
+          "use_cases": ["Dependency analysis", "Security scanning", "License compliance"]
+        },
+        {
+          "command": "/optimize",
+          "weekly_uses": 2,
+          "monthly_uses": 8,
+          "use_cases": ["Performance optimization", "Resource efficiency", "Cost optimization"]
+        },
+        {
+          "command": "/containerize",
+          "weekly_uses": 2,
+          "monthly_uses": 8,
+          "use_cases": ["Containerization", "Docker optimization", "K8s preparation"]
+        },
+        {
+          "command": "/pipeline-optimize",
+          "weekly_uses": 2,
+          "monthly_uses": 8,
+          "use_cases": ["CI/CD optimization", "Pipeline efficiency", "Build improvements"]
+        },
+        {
+          "command": "/task-archive",
+          "weekly_uses": 2,
+          "monthly_uses": 8,
+          "use_cases": ["Project completion", "Task cleanup", "Archive management"]
+        },
+        {
+          "command": "/tf-destroy",
+          "weekly_uses": 2,
+          "monthly_uses": 8,
+          "use_cases": ["Resource cleanup", "Environment teardown", "Cost management"]
+        },
+        {
+          "command": "/generate-resource",
+          "weekly_uses": 2,
+          "monthly_uses": 8,
+          "use_cases": ["Terraform scaffolding", "Resource templates", "Infrastructure setup"]
+        }
+      ]
+    },
+    "monthly_commands": {
+      "total_monthly_usage": 8,
+      "commands": [
+        {
+          "command": "/ci-setup",
+          "monthly_uses": 4,
+          "use_cases": ["New project setup", "Pipeline creation", "CI/CD configuration"]
+        },
+        {
+          "command": "/monitor-setup",
+          "monthly_uses": 2,
+          "use_cases": ["New environment monitoring", "Observability stack setup", "Alerting configuration"]
+        },
+        {
+          "command": "/incident-response",
+          "monthly_uses": 2,
+          "use_cases": ["Incident handling", "Emergency response", "Post-mortem analysis"]
+        }
+      ]
+    }
+  },
+  "priority_ranking": {
+    "tier_1_critical": [
+      "/validate",
+      "/terraform-validate", 
+      "/tf-flow",
+      "/task-create",
+      "/task-update",
+      "/tf-apply"
+    ],
+    "tier_2_high": [
+      "/task-list",
+      "/task-search",
+      "/debug",
+      "/plan",
+      "/gitops-sync",
+      "/log-trace",
+      "/task-show"
+    ],
+    "tier_3_medium": [
+      "/security-audit",
+      "/harden",
+      "/monitor",
+      "/benchmark",
+      "/tf-destroy",
+      "/generate-resource"
+    ],
+    "tier_4_low": [
+      "/dependencies",
+      "/optimize", 
+      "/containerize",
+      "/pipeline-optimize",
+      "/task-archive"
+    ],
+    "tier_5_special": [
+      "/ci-setup",
+      "/monitor-setup",
+      "/incident-response"
+    ]
+  },
+  "consolidation_opportunities": {
+    "terraform_cluster": {
+      "commands": ["/terraform-validate", "/tf-flow", "/tf-apply", "/tf-destroy", "/tf-pre-commit", "/tf-security-scan"],
+      "total_usage": 266,
+      "consolidation_potential": "High",
+      "recommendation": "Merge into /tf with subcommands"
+    },
+    "task_management_cluster": {
+      "commands": ["/task-create", "/task-update", "/task-list", "/task-search", "/task-show", "/task-log", "/task-archive"],
+      "total_usage": 438,
+      "consolidation_potential": "Low", 
+      "recommendation": "Keep separate - well-designed individual commands"
+    },
+    "security_cluster": {
+      "commands": ["/security-audit", "/harden", "/tf-security-scan"],
+      "total_usage": 62,
+      "consolidation_potential": "Medium",
+      "recommendation": "Consider unified /security command"
+    }
+  },
+  "optimization_recommendations": {
+    "speed_optimization": [
+      "/validate",
+      "/terraform-validate",
+      "/tf-flow",
+      "/task-create",
+      "/task-update"
+    ],
+    "alias_candidates": [
+      {
+        "command": "/validate",
+        "alias": "/v",
+        "justification": "Most used command (240 monthly uses)"
+      },
+      {
+        "command": "/terraform-validate", 
+        "alias": "/tf",
+        "justification": "Core Terraform workflow (180 monthly uses)"
+      },
+      {
+        "command": "/task-create",
+        "alias": "/t",
+        "justification": "High-frequency task management (120 monthly uses)"
+      }
+    ],
+    "command_combinations": [
+      {
+        "workflow": "terraform_development",
+        "commands": ["/terraform-validate", "/tf-flow", "/tf-apply"],
+        "frequency": "Daily",
+        "optimization": "Create /tf-dev macro command"
+      },
+      {
+        "workflow": "security_review",
+        "commands": ["/validate", "/security-audit", "/harden"],
+        "frequency": "Weekly", 
+        "optimization": "Create /security macro command"
+      }
+    ]
+  },
+  "insights": {
+    "most_critical_workflow": "Terraform development cycle (46% of daily usage)",
+    "task_management_adoption": "Very high (35% of daily usage)",
+    "security_consciousness": "Good (20% of total usage security-related)",
+    "automation_level": "High (77% high/very-high automation commands)",
+    "complexity_tolerance": "Medium-high (15 commands with complexity 4-5 in daily use)",
+    "consolidation_impact": "High potential savings in Terraform cluster, maintain task management granularity"
+  }
+}

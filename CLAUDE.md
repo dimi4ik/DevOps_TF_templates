@@ -20,7 +20,7 @@ This is a **template repository** providing scaffolding for DevOps projects, not
   - `deployment/` - Deployment guides and operations
   - `templates/` - Template customization and examples
   - `promt/` - XML-formatted project specification and workflow definitions
-- `.claude/` - 22 Claude Code slash commands for comprehensive development workflow
+- `.claude/` - 31 Claude Code slash commands for comprehensive development workflow (Command Audit 2025-07-14)
 - `.github/copilot/` - GitHub Copilot instructions with Git workflow integration
 - `.gitlab/` - GitLab merge request templates
 - `archive/` - Archived AI tool collections (908K)
@@ -39,10 +39,29 @@ checkov                     # Infrastructure security analysis
 
 **AI-Assisted Development:**
 - Use `/validate`, `/terraform-validate`, `/plan`, `/deploy` slash commands
-- 22 comprehensive commands in `.claude/` directory (updated from 19)
+- 31 comprehensive commands in `.claude/` directory (Command Audit 2025-07-14)
 - Workflow-driven development with planning phases
 
-### Active Claude Slash Commands (22 Commands)
+### Active Claude Slash Commands (31 Commands)
+
+#### Command Categories Overview (Command Audit Phase 1 - 2025-07-14)
+- **Infrastructure Commands**: 8 Commands (Terraform, K8s, Container)
+- **Task Management System**: 7 Commands (Vollständiges Projektmanagement)
+- **Security & Compliance**: 4 Commands (Multi-Layer Security)
+- **Operations & Monitoring**: 4 Commands (Observability & Incident Response)
+- **CI/CD Infrastructure**: 4 Commands (Pipeline & GitOps)
+- **Development Support**: 3 Commands (Debug, Validation)
+- **Performance Analysis**: 2 Commands (Benchmarking, Optimization)
+
+**Usage-Pattern (simuliert über 90 Tage):**
+- **Daily Commands (17)**: 77% der Gesamtnutzung
+- **Weekly Commands (12)**: 20% der Gesamtnutzung  
+- **Monthly Commands (2)**: 3% der Gesamtnutzung
+
+**Optimierungsempfehlungen aus Audit:**
+- 5 archivierte Commands mit überlegener Qualität identifiziert
+- Terraform-Cluster Konsolidierungspotential (6→3 Commands)
+- 25+ veraltete Commands für Bereinigung markiert
 
 #### Core Infrastructure Commands
 1. **`/validate`** - Comprehensive multi-language validation workflow
@@ -89,18 +108,32 @@ checkov                     # Infrastructure security analysis
 21. **`/tf-flow`** - Complete Terraform development workflow
 22. **`/tf-pre-commit`** - Run Terraform pre-commit hooks
 
-#### Command Management Strategy
-**Active Commands**: Located in `.claude/commands/` - ready for immediate use
-**Archived Commands**: Located in `archive/ai-tools/claude-commands/` - 78 zusätzliche Commands verfügbar
+#### Command Management Strategy (Updated nach Phase 1 Audit)
+**Active Commands**: 31 Commands in `.claude/commands/` - ready for immediate use
+**Archived Commands**: 78 Commands in `archive/ai-tools/claude-commands/` - teilweise veraltet
 
-**Activating Additional Commands:**
+**Audit-Erkenntnisse (2025-07-14):**
+- **Identische Duplikate**: 2 Commands (validate, terraform-validate) ← sofort entfernen
+- **Überlegene Archive-Commands**: 5 Commands für Reaktivierung identifiziert  
+- **Veraltete Commands**: 25+ Commands für endgültige Archivierung
+- **Redundanz-Cluster**: Terraform (6 Commands), Security (3 Commands)
+
+**Command-Optimierung (geplant Phase 2):**
 ```bash
-# Activate command from archive
-mv archive/ai-tools/claude-commands/COMMAND_NAME.md .claude/commands/
+# Überlegene Commands reaktivieren  
+mv archive/ai-tools/claude-commands/{deps,perf,audit,health-check,deep-dive}.md .claude/commands/
 
-# Deactivate command (move back to archive)  
-mv .claude/commands/COMMAND_NAME.md archive/ai-tools/claude-commands/
+# Unterlegene Commands ersetzen
+mv .claude/commands/{dependencies,optimize,security-audit}.md archive/ai-tools/claude-commands/replaced/
+
+# Veraltete Commands endgültig archivieren
+mv archive/ai-tools/claude-commands/{add-gitmoji,deno-ify,scaffold-*,five,scratch,think}.md archive/ai-tools/claude-commands/deprecated/
 ```
+
+**Dokumentation der Audit-Ergebnisse:**
+- `docs/command-audit-report.md` - Vollständiger Audit-Report mit ROI-Projektion
+- `claude-commands-analysis.json` - Technische Analyse aller 31 Commands
+- `usage-analytics-simulation.json` - 90-Tage Nutzungsfrequenz-Simulation
 
 ## Key Configuration Files
 
