@@ -195,7 +195,7 @@ archive/ai-tools/claude-commands/
 
 ### Git and Commit Preferences
 - **Commit Style**: Concise, descriptive German commit messages
-- **Co-Author**: Always include `Co-Authored-By: dima@lejkin.de`
+- **Co-Author**: Do NOT include Co-Authored-By lines in commits
 - **No Claude Branding**: Do NOT include "Generated with Claude Code" lines in commits
 - **Tagging**: Create version tags for major feature completions
 - **Branch Management**: Work on feature branches, clean up obsolete files
@@ -295,7 +295,7 @@ common_tags = {
   ```
 
 ### Co-Author Integration
-- **Required**: Always include `Co-Authored-By: dima@lejkin.de` in commits
+- **Prohibited**: Do NOT include Co-Authored-By lines in commits
 - **No Claude Branding**: Do NOT include "Generated with Claude Code" lines in commits
 - **Attribution**: Focus on human collaboration, not AI tool attribution
 
